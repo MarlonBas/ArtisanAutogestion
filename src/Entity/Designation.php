@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DesignationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DesignationRepository::class)]
@@ -33,6 +35,14 @@ class Designation
 
     #[ORM\Column]
     private ?int $tva = null;
+
+    #[ORM\ManyToMany(targetEntity: Document::class, inversedBy: 'designations')]
+    private Collection $documents;
+
+    public function __construct()
+    {
+        $this->documents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +129,30 @@ class Designation
     public function setTva(int $tva): static
     {
         $this->tva = $tva;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Document>
+     */
+    public function getDocument(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Document $document): static
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents->add($document);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): static
+    {
+        $this->documents->removeElement($document);
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DocumentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,17 @@ class Document
 
     #[ORM\Column]
     private ?bool $type = null;
+
+    #[ORM\ManyToMany(targetEntity: Designation::class, mappedBy: 'document')]
+    private Collection $designations;
+
+    #[ORM\ManyToOne(inversedBy: 'Documents')]
+    private ?Client $client = null;
+
+    public function __construct()
+    {
+        $this->designations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -60,6 +73,45 @@ class Document
     public function setType(bool $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Designation>
+     */
+    public function getDesignations(): Collection
+    {
+        return $this->designations;
+    }
+
+    public function addDesignation(Designation $designation): static
+    {
+        if (!$this->designations->contains($designation)) {
+            $this->designations->add($designation);
+            $designation->addDocument($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDesignation(Designation $designation): static
+    {
+        if ($this->designations->removeElement($designation)) {
+            $designation->removeDocument($this);
+        }
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): static
+    {
+        $this->client = $client;
 
         return $this;
     }
