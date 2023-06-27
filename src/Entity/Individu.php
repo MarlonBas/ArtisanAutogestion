@@ -6,7 +6,7 @@ use App\Repository\IndividuRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: IndividuRepository::class)]
-class Individu
+abstract class Individu
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
