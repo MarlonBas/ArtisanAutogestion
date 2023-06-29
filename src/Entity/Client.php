@@ -36,7 +36,6 @@ class Client
     #[ORM\Column(length: 100)]
     private ?string $telephone = null;
 
-
     public function __construct()
     {
         $this->Documents = new ArrayCollection();
