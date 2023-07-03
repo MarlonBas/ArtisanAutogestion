@@ -2,23 +2,35 @@
 
 namespace App\Controller;
 
+use App\Form\ClientType;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Client;
 
 class ClientController extends AbstractController
 {
-    #[Route('/client/add', name: 'app_client_show')]
-    public function add(): Response
+    #[Route('/client/add', name: 'app_client_add')]
+    public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
-        
-        return $this -> render('client/add.html.twig');
+        $form = $this->createForm(ClientType::class);
+        $client = new Client();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid() ) {
+            $client = $form->getData();
+            $entityManager->persist($client);
+            $entityManager->flush();
+            $this->addFlash('success', "Le client a été ajouté avec succès");
+            return $this->redirectToRoute('app_main');
+        }
+        return $this -> render('client/add.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/client/show{name}', name: 'app_client_show', requirements: 'a-zA-Z\s.,')]
+    #[Route('/client/show{name}', name: 'app_client_show', requirements: ['name' => '[a-zA-Z\s.,/]+'])]
     public function show(String $name, ClientRepository $clientRepository): Response
     {
         $client= $clientRepository->findOneByName($name);
@@ -28,7 +40,7 @@ class ClientController extends AbstractController
         return $this -> render('client/infoclient.html.twig', ['client' => $client]);
     }
 
-    #[Route('/client/edit{name}', name: 'app_client_edit', requirements: 'a-zA-Z\s.,')]
+    #[Route('/client/edit{name}', name: 'app_client_edit', requirements: ['name' => '[a-zA-Z\s.,/]+'])]
     public function edit(String $name, Request $request, ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response
     {
         $client = $clientRepository->findOneByName($name);
@@ -40,12 +52,14 @@ class ClientController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $this->addFlash('success', "Les info clients ont étés modifiés");
+            $client = $form->getData();
+            $entityManager->persist($client);
             $entityManager->flush();
+            $this->addFlash('success', "Les informations du client ont étés modifiés avec succès");
             return $this->render('client/edit.html.twig', [
-                'clientForm' => $form->createView(), 'client' => $client]);
+                'form' => $form->createView(), 'client' => $client]);
         }
         return $this->render('client/edit.html.twig', [
-            'clientForm' => $form->createView(), 'client' => $client]);
+            'form' => $form->createView(), 'client' => $client]);
     }
 }
