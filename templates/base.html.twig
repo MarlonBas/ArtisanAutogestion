@@ -7,28 +7,7 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
     <body>
-        <h1></h1>
-        <nav class="navbar">
-            <div class="navbar__container">
-                <a href="/main" id="navbar__logo">Artisan . Autogestion</a>
-                <div class="navbar__toggle" id="mobile-menu">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </div>
-                <ul class="navbar__menu">
-                    <li class="navbar__btn">
-                        <a href="/register" class="button">+utilisateur</a>
-                    </li>
-                    <li class="navbar__btn">
-                        <a href="/logout" class="button">déconnexion</a>
-                    </li>
-                    <li class="navbar__btn">
-                        <a href="/" class="button">paramètres</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        {% include '/inc/nav.html.twig' %}
         <div class="container">
             {% block body %}{% endblock %}
         </div>
