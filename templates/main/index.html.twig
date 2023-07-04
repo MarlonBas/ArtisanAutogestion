@@ -19,11 +19,39 @@
   
     <div class="box">
       <a href="/" class="sm-button">+devis/facture</a>
-      <p>Tableau</p>
+      <br>
+      <table class="document-table">
+          <tr>
+              <th scope="col">Devis en édition</th>
+              <th scope="col">Devis envoyés</th>
+              <th scope="col">Devis acceptés</th>
+              <th scope="col">Factures en édition</th>
+              <th scope="col">Factures envoyées</th>
+              <th scope="col">Factures payées</th>
+        </tr>
+      </table>
     </div>
   
     <div class="box">
-      <a href="/" class="sm-button">+client</a>
-      <p>Tableau</p>
+      <a href="/client/add" class="sm-button">+client</a>
+      <table class="client-table">
+        <thead>
+          <tr>
+              <th scope="col">Nom</th>
+              <th scope="col">Email</th>
+              <th scope="col">Telephone</th>
+              <th scope="col">Adresse</th>
+          </tr>
+        </thead>
+      {% for client in clients %}
+        <tbody>
+          <tr scope="row">
+                <td><a href="{{ path('app_client_show', {'name': client.nom}) }}">{{ client.nom }}</a></td>
+                <td>{{client.Email}}</td>
+                <td>{{client.Telephone}}</td>
+                <td>{{client.Adresse}}, {{client.codePostal}},{{client.ville}}</td>
+            </tr>
+        </tbody>  
+      {% endfor %}
     </div>
 {% endblock %}

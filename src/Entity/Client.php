@@ -36,6 +36,10 @@ class Client
     #[ORM\Column(length: 100)]
     private ?string $telephone = null;
 
+    #[ORM\ManyToOne(inversedBy: 'clients')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $User = null;
+
     public function __construct()
     {
         $this->Documents = new ArrayCollection();
@@ -144,6 +148,18 @@ class Client
     public function setTelephone(string $telephone): static
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): static
+    {
+        $this->User = $User;
 
         return $this;
     }

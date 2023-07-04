@@ -31,6 +31,10 @@ class Document
     #[ORM\ManyToOne(inversedBy: 'Documents')]
     private ?Client $client = null;
 
+    #[ORM\ManyToOne(inversedBy: 'documents')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->designations = new ArrayCollection();
@@ -112,6 +116,18 @@ class Document
     public function setClient(?Client $client): static
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

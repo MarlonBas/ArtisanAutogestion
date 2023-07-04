@@ -10,18 +10,30 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Client;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ClientController extends AbstractController
 {
+    private $tokenStorage;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
     #[Route('/client/add', name: 'app_client_add')]
     public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ClientType::class);
         $client = new Client();
 
+        $token = $this->tokenStorage->getToken();
+        $user = $token->getUser();
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid() ) {
             $client = $form->getData();
+            $client->setUser($user);
             $entityManager->persist($client);
             $entityManager->flush();
             $this->addFlash('success', "Le client a été ajouté avec succès");
@@ -33,7 +45,7 @@ class ClientController extends AbstractController
     #[Route('/client/show{name}', name: 'app_client_show', requirements: ['name' => '[a-zA-Z\s.,/]+'])]
     public function show(String $name, ClientRepository $clientRepository): Response
     {
-        $client= $clientRepository->findOneByName($name);
+        $client= $clientRepository->findOneByNom($name);
         if (!$client) {
             throw $this->createNotFoundException("ERREUR: les données client sont introuvable");
         }
