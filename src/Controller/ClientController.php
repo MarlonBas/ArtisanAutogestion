@@ -60,11 +60,11 @@ class ClientController extends AbstractController
     #[Route('/client/edit{name}', name: 'app_client_edit', requirements: ['name' => '[a-zA-Z\s.,/]+'])]
     public function edit(String $name, Request $request, ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response
     {
-        $client = $clientRepository->findOneByName($name);
+        $client = $clientRepository->findOneByNom($name);
         if (!$client) {
             throw $this->createNotFoundException("ERREUR: les données client sont introuvable");
         }
-        $form = $this->createForm(ClientFormType::class, $client);
+        $form = $this->createForm(ClientType::class, $client);
 
         $form->handleRequest($request);
 

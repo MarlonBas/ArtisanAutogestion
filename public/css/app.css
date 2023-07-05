@@ -101,6 +101,10 @@ h1 {
   /*text-shadow: -1px 1px 0 #000;*/
 }
 
+h3, h2 {
+  margin: 20px;
+}
+
 .navbar {
   background-color: rgb(214, 184, 190);
   height: 80px;
@@ -243,7 +247,6 @@ h1 {
   padding: 10px 20px;
   height: 30px;
   width: 15%;
-  border: none;
   outline: none;
   background: #e9dcdc;
   border: 2px solid rgb(0, 0, 0);
@@ -293,3 +296,37 @@ h1 {
   width: 17%;
 }
 
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-label {
+  width: 150px;
+  text-align: right;
+  padding-right: 10px;
+  font-weight: bold;
+}
+
+.form-field {
+  flex: 1;
+}
+
+.submit-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #e9dcdc;
+  color: rgb(27, 27, 27);
+  border: 2px solid rgb(0, 0, 0);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: yellow;
+}
+
+.submit-button:focus {
+  outline: none;
+}
