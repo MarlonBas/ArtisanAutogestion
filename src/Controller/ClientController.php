@@ -28,7 +28,12 @@ class ClientController extends AbstractController
         $client = new Client();
 
         $token = $this->tokenStorage->getToken();
+        if ($token == null)
+        {
+            return $this->redirectToRoute('app_login');
+        }
         $user = $token->getUser();
+       
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid() ) {

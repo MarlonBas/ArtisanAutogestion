@@ -21,6 +21,10 @@ class MainController extends AbstractController
     public function index(): Response
     {
         $token = $this->tokenStorage->getToken();
+        if ($token == null)
+        {
+            return $this->redirectToRoute('app_login');
+        }
         $user = $token->getUser();
 
         $clients = $user->getClients()->toArray();

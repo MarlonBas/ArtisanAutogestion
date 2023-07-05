@@ -35,6 +35,8 @@ security:
 
         #- { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/main, roles: ROLE_USER }
+        - { path: ^/client, roles: ROLE_USER }
+        - { path: ^/document, roles: ROLE_USER }
 
 when@test:
     security:
