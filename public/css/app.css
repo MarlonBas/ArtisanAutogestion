@@ -329,3 +329,24 @@ h3, h2 {
 .submit-button:focus {
   outline: none;
 }
+
+.column-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  width: 17%;
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+.column span {
+  margin-bottom: 10px;
+}
+
+.column strong {
+  margin-bottom: 10px;
+}

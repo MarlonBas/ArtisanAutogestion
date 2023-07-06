@@ -54,7 +54,10 @@ class ClientController extends AbstractController
         if (!$client) {
             throw $this->createNotFoundException("ERREUR: les données client sont introuvable");
         }
-        return $this -> render('client/infoclient.html.twig', ['client' => $client]);
+
+        $documents = $client->getDocuments()->toArray();
+
+        return $this -> render('client/infoclient.html.twig', ['client' => $client, 'documents' => $documents]);
     }
 
     #[Route('/client/edit{name}', name: 'app_client_edit', requirements: ['name' => '[a-zA-Z\s.,/]+'])]

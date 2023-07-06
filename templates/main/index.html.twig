@@ -5,21 +5,50 @@
 {% block body %}
     <div class="box">
       <a href="/" class="sm-button">+evenement</a>
+      <br>
     </div>
   
     <div class="box">
-      <a href="/" class="sm-button">+devis/facture</a>
+      <a href="/document/create" class="sm-button">+devis/facture</a>
       <br>
-      <table class="document-table">
-          <tr>
-              <th scope="col">Devis en édition</th>
-              <th scope="col">Devis envoyés</th>
-              <th scope="col">Devis acceptés</th>
-              <th scope="col">Factures en édition</th>
-              <th scope="col">Factures envoyées</th>
-              <th scope="col">Factures payées</th>
-        </tr>
-      </table>
+      <div class="column-container">
+        <div class="column">
+          <strong>Devis en cours</strong>
+          {% for devis in devisEnCours %}
+          {{devis.numero}}-{{devis.client.nom}}
+          {% endfor %}
+        </div>
+        <div class="column">
+          <strong>Devis envoyés</strong>
+          {% for devis in devisEnvoyes %}
+          {{devis.numero}}-{{devis.client.nom}}
+          {% endfor %}
+        </div>
+        <div class="column">
+          <strong>Devis acceptés</strong>
+          {% for devis in devisAcceptes %}
+          {{devis.numero}}-{{devis.client.nom}}
+          {% endfor %}
+        </div>
+        <div class="column">
+          <strong>Factures en cours</strong>
+          {% for facture in facturesEnCours %}
+          {{facture.numero}}-{{facture.client.nom}}
+          {% endfor %}
+        </div>
+        <div class="column">
+          <strong>Factures envoyées</strong>
+          {% for facture in facturesEnvoyees %}
+          {{facture.numero}}-{{facture.client.nom}}
+          {% endfor %}
+        </div>
+        <div class="column">
+          <strong>Factures payées</strong>
+          {% for facture in facturesPayees %}
+          {{facture.numero}}-{{facture.client.nom}}
+          {% endfor %}
+        </div>
+      </div>
     </div>
   
     <div class="box">

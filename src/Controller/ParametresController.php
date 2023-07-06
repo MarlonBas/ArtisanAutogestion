@@ -42,9 +42,7 @@ class ParametresController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $parametres = $form->getData();
             $parametres->setUser($user);
-            /*$user->setParametres($parametres);*/
             $entityManager->persist($parametres);
-            /*$entityManager->persist($user);*/
             $entityManager->flush();
             $this->addFlash('success', "Paramétres modifiés avec succès");
             return $this->render('parametres/index.html.twig', [

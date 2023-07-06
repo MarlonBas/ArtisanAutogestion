@@ -23,7 +23,7 @@ class Document
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column]
-    private ?bool $type = null;
+    private String $type;
 
     #[ORM\ManyToMany(targetEntity: Designation::class, mappedBy: 'document')]
     private Collection $designations;
@@ -69,12 +69,12 @@ class Document
         return $this;
     }
 
-    public function isType(): ?bool
+    public function getType(): String
     {
         return $this->type;
     }
 
-    public function setType(bool $type): static
+    public function setType(String $type): static
     {
         $this->type = $type;
 

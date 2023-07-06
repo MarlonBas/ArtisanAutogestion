@@ -28,9 +28,31 @@ class MainController extends AbstractController
         $user = $token->getUser();
 
         $clients = $user->getClients()->toArray();
+        $documents = $user->getDocuments()->toArray();
+
+        $devisEnCours = $this->documentTypeFilter($documents, "devisEnCours");
+        $devisEnvoyes = $this->documentTypeFilter($documents, "devisEnvoyes");
+        $devisAcceptes = $this->documentTypeFilter($documents, "devisAcceptes");
+        $facturesEnCours = $this->documentTypeFilter($documents, "facturesEnCours");
+        $facturesEnvoyees = $this->documentTypeFilter($documents, "facturesEnvoyees");
+        $facturesPayees = $this->documentTypeFilter($documents, "facturesPayees");
 
         return $this->render('main/index.html.twig', [
-            'clients' => $clients,
+            'clients' => $clients, 
+            'devisEnCours' => $devisEnCours,
+            'devisEnvoyes' => $devisEnvoyes,
+            'devisAcceptes' => $devisAcceptes,
+            'facturesEnCours' => $facturesEnCours,
+            'facturesEnvoyees' => $facturesEnvoyees,
+            'facturesPayees' => $facturesPayees,
         ]);
+    }
+
+    private function documentTypeFilter($documents, $type)
+    {
+        $documentsFiltres = array_filter($documents, function ($document) use ($type) {
+            return $document->getType() === $type;
+        });
+        return $documentsFiltres;
     }
 }

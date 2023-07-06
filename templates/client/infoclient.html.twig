@@ -10,8 +10,12 @@
 {{client.Telephone}}
 <br>
 {{client.Adresse}}, {{client.codePostal}}, {{client.ville}}</p>
-<h3>Devis</h3>
-<h3>Factures</h3>
+<div class="column" style="text-align: center">
+    <strong>Documents associés</strong>
+    {% for document in documents %}
+        {{document.numero}}-{{document.client.nom}}
+    {% endfor %}
+</div>
 <td><a href="{{ path('app_client_edit', {'name': client.nom}) }}" class="sm-button">Modifier</a></td>
 
 {% endblock %}
