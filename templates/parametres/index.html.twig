@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}paramètres de l'application{% endblock %}
+
+{% block body %}
+<h2> Paramètres </h2>
+<div class="form-look">
+    {{ form_start(form) }}
+    <div class="form-row">
+            <div class="form-label">{{ form_label(form.modeMicro) }}</div>
+            <div class="form-field">{{ form_widget(form.modeMicro) }}</div>
+        </div>
+        <div class="form-row">
+            <div class="form-label">{{ form_label(form.afficherCalendrier) }}</div>
+            <div class="form-field">{{ form_widget(form.afficherCalendrier) }}</div>
+        </div>
+        <div class="form-row">
+            <div class="form-label">{{ form_label(form.afficherSommes) }}</div>
+            <div class="form-field">{{ form_widget(form.afficherSommes) }}</div>
+        </div>
+        <div class="form-row">
+            <div class="form-label">{{ form_label(form.afficherGraphique) }}</div>
+            <div class="form-field">{{ form_widget(form.afficherGraphique) }}</div>
+        </div>
+        <div class="form-row">
+            <div class="form-label">{{ form_label(form.afficherImpots) }}</div>
+            <div class="form-field">{{ form_widget(form.afficherImpots) }}</div>
+        </div>
+    <button type="submit" class="submit-button">Enregister</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

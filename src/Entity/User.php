@@ -55,6 +55,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Document::class)]
     private Collection $documents;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Parametres $parametres = null;
+
     public function __construct()
     {
         $this->clients = new ArrayCollection();
@@ -259,6 +262,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $document->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getParametres(): ?Parametres
+    {
+        return $this->parametres;
+    }
+
+    public function setParametres(?Parametres $parametres): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($parametres === null && $this->parametres !== null) {
+            $this->parametres->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($parametres !== null && $parametres->getUser() !== $this) {
+            $parametres->setUser($this);
+        }
+
+        $this->parametres = $parametres;
 
         return $this;
     }

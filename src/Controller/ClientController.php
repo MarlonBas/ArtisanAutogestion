@@ -36,7 +36,7 @@ class ClientController extends AbstractController
        
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid() ) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $client = $form->getData();
             $client->setUser($user);
             $entityManager->persist($client);
@@ -68,7 +68,7 @@ class ClientController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $client = $form->getData();
             $entityManager->persist($client);
             $entityManager->flush();
