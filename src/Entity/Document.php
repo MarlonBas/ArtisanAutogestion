@@ -17,7 +17,7 @@ class Document
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $numero = null;
+    private String $numero;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;

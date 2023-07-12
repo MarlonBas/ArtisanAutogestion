@@ -172,6 +172,7 @@ h3, h2 {
   outline: none;
   background: #e9dcdc;
   border: 2px solid #000;
+  border-radius: 10px;
 }
 
 .button:hover{
@@ -191,12 +192,13 @@ h3, h2 {
 .box {
     width: 100%;
     max-width: 95vw; /* Adjust this value to control the maximum width of the boxes */
-    background-color: #f2f2f2;
+    background-color: #dfdfdf;
     padding: 20px;
     margin-bottom: 20px;
     border: 2px solid #000;
     box-sizing: border-box;
-    justify-content: center; 
+    justify-content: center;
+    border-radius: 10px; 
   }
 
   .box a {
@@ -244,6 +246,7 @@ h3, h2 {
   outline: none;
   background: #e9dcdc;
   border: 2px solid rgb(0, 0, 0);
+  border-radius: 10px;
 }
 
 .sm-button:hover{
