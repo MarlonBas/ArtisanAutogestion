@@ -4,80 +4,9 @@
 
 {% block body %}
     <div class="box">
-      <a href="/" class="sm-button">+evenement</a>
+      <a href="/" class="sm-button">Nouveau événement</a>
       <br>
     </div>
-  
-    <div class="box">
-      <a href="/document/create" class="sm-button">+devis/facture</a>
-      <br>
-      <div class="column-container">
-        <div class="column">
-          <strong>Devis en cours</strong>
-          {% for devis in devisEnCours %}
-          {{devis.numero}}-{{devis.client.nom}}
-          <br>
-          {% endfor %}
-        </div>
-        <div class="column">
-          <strong>Devis envoyés</strong>
-          {% for devis in devisEnvoyes %}
-          {{devis.numero}}-{{devis.client.nom}}
-          <br>
-          {% endfor %}
-        </div>
-        <div class="column">
-          <strong>Devis acceptés</strong>
-          {% for devis in devisAcceptes %}
-          {{devis.numero}}-{{devis.client.nom}}
-          <br>
-          {% endfor %}
-        </div>
-        <div class="column">
-          <strong>Factures en cours</strong>
-          {% for facture in facturesEnCours %}
-          {{facture.numero}}-{{facture.client.nom}}
-          <br>
-          {% endfor %}
-        </div>
-        <div class="column">
-          <strong>Factures envoyées</strong>
-          {% for facture in facturesEnvoyees %}
-          {{facture.numero}}-{{facture.client.nom}}
-          <br>
-          {% endfor %}
-        </div>
-        <div class="column">
-          <strong>Factures payées</strong>
-          {% for facture in facturesPayees %}
-          {{facture.numero}}-{{facture.client.nom}}
-          <br>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-  
-    <div class="box">
-      <a href="/client/add" class="sm-button">+client</a>
-      <table class="client-table">
-        <thead>
-          <tr>
-              <th scope="col">Nom</th>
-              <th scope="col">Email</th>
-              <th scope="col">Telephone</th>
-              <th scope="col">Adresse</th>
-          </tr>
-        </thead>
-      {% for client in clients %}
-        <tbody>
-          <tr scope="row">
-                <td><a href="{{ path('app_client_show', {'name': client.nom}) }}">{{ client.nom }}</a></td>
-                <td>{{client.Email}}</td>
-                <td>{{client.Telephone}}</td>
-                <td>{{client.Adresse}}, {{client.codePostal}},{{client.ville}}</td>
-            </tr>
-        </tbody>  
-      {% endfor %}
-      </table>
-    </div>
+    <a href="/document" class="sm-button2">Devis et Factures</a>
+    <a href="/client" class="sm-button2">Clients</a>
 {% endblock %}

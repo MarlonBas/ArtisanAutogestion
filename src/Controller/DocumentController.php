@@ -22,6 +22,45 @@ class DocumentController extends AbstractController
         $this->tokenStorage = $tokenStorage;
     }
 
+    #[Route('/document', name: 'app_document_index')]
+    public function index(): Response
+    {
+        $token = $this->tokenStorage->getToken();
+        if ($token == null)
+        {
+            return $this->redirectToRoute('app_login');
+        }
+        $user = $token->getUser();
+
+        $clients = $user->getClients()->toArray();
+        $documents = $user->getDocuments()->toArray();
+
+        $devisEnCours = $this->documentTypeFilter($documents, "devisEnCours");
+        $devisEnvoyes = $this->documentTypeFilter($documents, "devisEnvoyes");
+        $devisAcceptes = $this->documentTypeFilter($documents, "devisAcceptes");
+        $facturesEnCours = $this->documentTypeFilter($documents, "facturesEnCours");
+        $facturesEnvoyees = $this->documentTypeFilter($documents, "facturesEnvoyees");
+        $facturesPayees = $this->documentTypeFilter($documents, "facturesPayees");
+
+        return $this->render('document/indexdocument.html.twig', [
+            'clients' => $clients, 
+            'devisEnCours' => $devisEnCours,
+            'devisEnvoyes' => $devisEnvoyes,
+            'devisAcceptes' => $devisAcceptes,
+            'facturesEnCours' => $facturesEnCours,
+            'facturesEnvoyees' => $facturesEnvoyees,
+            'facturesPayees' => $facturesPayees,
+        ]);
+    }
+
+    private function documentTypeFilter($documents, $type)
+    {
+        $documentsFiltres = array_filter($documents, function ($document) use ($type) {
+            return $document->getType() === $type;
+        });
+        return $documentsFiltres;
+    }
+
     #[Route('/document/create', name: 'app_document_create')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -51,13 +90,13 @@ class DocumentController extends AbstractController
             }
             return $this->redirectToRoute('app_main');
         }
-        return $this -> render('document/create.html.twig', ['form' => $form->createView()]);
+        return $this -> render('document/adddocument.html.twig', ['form' => $form->createView()]);
     }
 
     #[Route('/document/edit{numero}', name: 'app_document_edit', requirements: ['name' => '[a-zA-Z\s.,/]+'])]
     public function edit(): Response
     {
-        return $this->render('document/edit.html.twig', [
+        return $this->render('document/editdoucment.html.twig', [
             'controller_name' => 'DocumentController',
         ]);
     }
@@ -65,7 +104,7 @@ class DocumentController extends AbstractController
     #[Route('/document{numero}', name: 'app_document_show', requirements: ['name' => '[a-zA-Z\s.,/]+'])]
     public function show(): Response
     {
-        return $this->render('document/show.html.twig', [
+        return $this->render('document/viewdocument.html.twig', [
             'controller_name' => 'DocumentController',
         ]);
     }

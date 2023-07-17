@@ -1,6 +1,7 @@
 <nav class="navbar">
             <div class="navbar__container">
-                <a href="/main" id="navbar__logo">Artisan . Autogestion</a>
+                <a href="/main" id="navbar__logo"></a>
+                <a href="/main" id="navbar__logo">{{app.user.nom}}</a>
                 <div class="navbar__toggle" id="mobile-menu">
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -12,9 +13,6 @@
                     </li>
                     <li class="navbar__btn">
                         <a href="/parametres" class="button">paramètres</a>
-                    </li>
-                    <li class="navbar__btn">
-                        <a href="/register" class="button">+utilisateur</a>
                     </li>
                 </ul>
             </div>

@@ -21,6 +21,23 @@ class ClientController extends AbstractController
         $this->tokenStorage = $tokenStorage;
     }
 
+    #[Route('/client', name: 'app_client_index')]
+    public function index(): Response
+    {
+        $token = $this->tokenStorage->getToken();
+        if ($token == null)
+        {
+            return $this->redirectToRoute('app_login');
+        }
+        $user = $token->getUser();
+
+        $clients = $user->getClients()->toArray();
+
+        return $this->render('client/indexclient.html.twig', [
+            'clients' => $clients,
+        ]);
+    }
+
     #[Route('/client/add', name: 'app_client_add')]
     public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -44,7 +61,7 @@ class ClientController extends AbstractController
             $this->addFlash('success', "Le client a été ajouté avec succès");
             return $this->redirectToRoute('app_main');
         }
-        return $this -> render('client/add.html.twig', ['form' => $form->createView()]);
+        return $this -> render('client/addclient.html.twig', ['form' => $form->createView()]);
     }
 
     #[Route('/client/show{name}', name: 'app_client_show', requirements: ['name' => '[a-zA-Z\s.,/]+'])]
@@ -57,7 +74,7 @@ class ClientController extends AbstractController
 
         $documents = $client->getDocuments()->toArray();
 
-        return $this -> render('client/infoclient.html.twig', ['client' => $client, 'documents' => $documents]);
+        return $this -> render('client/viewclient.html.twig', ['client' => $client, 'documents' => $documents]);
     }
 
     #[Route('/client/edit{name}', name: 'app_client_edit', requirements: ['name' => '[a-zA-Z\s.,/]+'])]
@@ -76,10 +93,10 @@ class ClientController extends AbstractController
             $entityManager->persist($client);
             $entityManager->flush();
             $this->addFlash('success', "Les informations du client ont étés modifiés avec succès");
-            return $this->render('client/edit.html.twig', [
+            return $this->render('client/editclient.html.twig', [
                 'form' => $form->createView(), 'client' => $client]);
         }
-        return $this->render('client/edit.html.twig', [
+        return $this->render('client/editclient.html.twig', [
             'form' => $form->createView(), 'client' => $client]);
     }
 }
