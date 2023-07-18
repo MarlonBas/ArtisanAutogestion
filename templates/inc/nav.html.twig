@@ -1,7 +1,9 @@
 <nav class="navbar">
             <div class="navbar__container">
                 <a href="/main" id="navbar__logo"></a>
+                {% if app.user %}
                 <a href="/main" id="navbar__logo">{{app.user.nom}}</a>
+                {% endif %}
                 <div class="navbar__toggle" id="mobile-menu">
                     <span class="bar"></span>
                     <span class="bar"></span>

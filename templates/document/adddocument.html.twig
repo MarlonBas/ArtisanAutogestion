@@ -15,7 +15,11 @@
             <div class="form-label">{{ form_label(form.type) }}</div>
             <div class="form-field">{{ form_widget(form.type) }}</div>
         </div>
-    <button type="submit" class="submit-button">Enregistrer</button>
+        <div class="form-row">
+            <div class="form-label">{{ form_label(form.client) }}</div>
+            <div class="form-field">{{ form_widget(form.client) }}</div>
+        </div>
+    <button type="submit" class="submit-button">Suivant</button>
     {{ form_end(form) }}
 </div>
 {% endblock %}

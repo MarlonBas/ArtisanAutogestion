@@ -29,13 +29,10 @@ class DocumentType extends AbstractType
                 ],
                 'label' => 'Type de document'
             ])
-            /*->add('designations', CollectionType::class, [
-                'entry_type' => DesignationType::class,
-                'by_reference' => false,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'label' => 'Designations',
-            ]);*/;
+            ->add('client', EntityType::class, [
+                'class' => Client::class,
+                'label' => 'Client',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
