@@ -99,4 +99,12 @@ class ClientController extends AbstractController
         return $this->render('client/editclient.html.twig', [
             'form' => $form->createView(), 'client' => $client]);
     }
+
+    #[Route('/client/remove{name}', name: 'app_client_remove', requirements: ['name' => '[a-zA-Z\s.,/]+'])]
+    public function remove($name, ClientRepository $clientRepository, EntityManagerInterface $entityManager) {
+        $client = $clientRepository->findOneByNom($name);
+        $entityManager->remove($client);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_client_index');
+    }
 }
