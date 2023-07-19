@@ -12,7 +12,6 @@ use App\Form\DocumentType;
 use App\Repository\DocumentRepository;
 use App\Entity\Document;
 use App\Entity\User;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DocumentController extends AbstractController
 {
@@ -63,7 +62,7 @@ class DocumentController extends AbstractController
     }
 
     #[Route('/document/create', name: 'app_document_create')]
-    public function create(Request $request, EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator): Response
+    public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(DocumentType::class);
         $document = new Document();
@@ -89,7 +88,7 @@ class DocumentController extends AbstractController
             if ($document->getType() == ("factureEnCours")) {
             $this->addFlash('success', "La facture à été enregistré avec succès");
             }
-            return $this->redirectToRoute($urlGenerator->generate('app_designation_add', ['id' => $document->getId()]));
+            return $this->redirectToRoute('app_designation_add', ['id' => $document->getId()]);
         }
         return $this -> render('document/adddocument.html.twig', ['form' => $form->createView()]);
     }

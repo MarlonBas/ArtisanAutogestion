@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Client;
+use Doctrine\ORM\EntityRepository;
 use App\Form\DesignationType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
@@ -18,6 +19,7 @@ class DocumentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $user = $this->security->getUser();
         $builder
             ->add('date', DateType::class, [
                 'label' => 'Date de creation',
@@ -32,6 +34,11 @@ class DocumentType extends AbstractType
             ->add('client', EntityType::class, [
                 'class' => Client::class,
                 'label' => 'Client',
+                'query_builder' => function (EntityRepository $entityRepository) use ($user) {
+                    return $entityRepository->createQueryBuilder('client')
+                        ->where('client.user = :user')
+                        ->setParameter('user', $user);
+                },
             ]);
     }
 
