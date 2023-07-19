@@ -64,9 +64,6 @@ class DocumentController extends AbstractController
     #[Route('/document/create', name: 'app_document_create')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(DocumentType::class);
-        $document = new Document();
-
         $token = $this->tokenStorage->getToken();
         if ($token == null)
         {
@@ -74,6 +71,8 @@ class DocumentController extends AbstractController
         }
         $user = $token->getUser();
        
+        $form = $this->createForm(DocumentType::class);
+        $document = new Document();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -93,19 +92,20 @@ class DocumentController extends AbstractController
         return $this -> render('document/adddocument.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/document/edit{numero}', name: 'app_document_edit', requirements: ['name' => '[a-zA-Z\s.,/]+'])]
-    public function edit(): Response
+    #[Route('/document/edit{id}', name: 'app_document_edit')]
+    public function edit(int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
         return $this->render('document/editdoucment.html.twig', [
             'controller_name' => 'DocumentController',
         ]);
     }
 
-    #[Route('/document{numero}', name: 'app_document_show', requirements: ['name' => '[a-zA-Z\s.,/]+'])]
-    public function show(): Response
+    #[Route('/document{id}', name: 'app_document_show')]
+    public function show(int $id, DocumentRepository $documentRepository): Response
     {
+        $document = $documentRepository->find($id);
         return $this->render('document/viewdocument.html.twig', [
-            'controller_name' => 'DocumentController',
+            'document' => $document,
         ]);
     }
 }
