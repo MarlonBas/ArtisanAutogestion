@@ -3,5 +3,36 @@
 {% block title %}Document{% endblock %}
 
 {% block body %}
-
+<h2>{{type}} n°{{document.numero}} du {{date}} pour {{document.client.nom}}</h2>
+<br>
+<p>Pour un total de {{totalHT}}€ HT et {{totalTTC}}€ TTC.</p>
+<br>
+<table class="designation-table">
+    <thead>
+        <tr>
+            <th scope="col">Désignation</th>
+            <th scope="col">Quantite</th>
+            <th scope="col">Unité</th>
+            <th scope="col">Prix Unitaire HT</th>
+            <th scope="col">TVA</th>
+            <th scope="col">Montant</th>
+        </tr>
+    </thead>
+    </tbody>
+{% for designation in designations %}
+    <tr scope="row">
+        <td>{{designation.description}}</td>
+        <td>{{designation.quantite}}</td>
+        <td>{{designation.unite}}</td>
+        <td>{{designation.prixUnitaire}}</td>
+        <td>{{designation.tva}}</td>
+        <td>{{designation.prixTotal}}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% if edit %}
+    <td><a href="{{ path('app_document_edit', {'id': document.id}) }}" class="sm-button">Modifier</a></td>
+{% endif %}
+<td><a href="{{ path('app_document_index', {'id': document.id}) }}" class="sm-button">Retour</a></td>
 {% endblock %}

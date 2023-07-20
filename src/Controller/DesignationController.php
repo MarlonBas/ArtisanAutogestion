@@ -15,7 +15,7 @@ use App\Entity\Document;
 
 class DesignationController extends AbstractController
 {
-    #[Route('/designation/{id}', name: 'app_designation_add')]
+    #[Route('/designation{id}', name: 'app_designation_add')]
     public function add(int $id, Request $request, EntityManagerInterface $entityManager, DocumentRepository $documentRepository): Response
     {
         $document = $documentRepository->find($id);
@@ -51,7 +51,7 @@ class DesignationController extends AbstractController
     }
 
     #[Route('/designation/remove{id}', name: 'app_designation_remove')]
-    public function remove($id, DesignationRepository $designationRepository,EntityManagerInterface $entityManager) {
+    public function remove(int $id, DesignationRepository $designationRepository,EntityManagerInterface $entityManager) {
         $designation = $designationRepository->find($id);
         $entityManager->remove($designation);
         $entityManager->flush();
