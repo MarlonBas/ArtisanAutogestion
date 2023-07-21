@@ -36,13 +36,8 @@ class Designation
     #[ORM\Column]
     private ?int $tva = null;
 
-    #[ORM\ManyToMany(targetEntity: Document::class, inversedBy: 'designations')]
-    private Collection $documents;
-
-    public function __construct()
-    {
-        $this->documents = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'designations')]
+    private ?Document $document = null;
 
     public function getId(): ?int
     {
@@ -133,27 +128,16 @@ class Designation
         return $this;
     }
 
-    /**
-     * @return Collection<int, Document>
-     */
-    public function getDocument(): Collection
+    public function getDocument(): ?Document
     {
-        return $this->documents;
+        return $this->document;
     }
 
-    public function addDocument(Document $document): static
+    public function setDocument(?Document $document): static
     {
-        if (!$this->documents->contains($document)) {
-            $this->documents->add($document);
-        }
+        $this->document = $document;
 
         return $this;
     }
 
-    public function removeDocument(Document $document): static
-    {
-        $this->documents->removeElement($document);
-
-        return $this;
-    }
 }

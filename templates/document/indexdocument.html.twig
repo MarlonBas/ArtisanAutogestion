@@ -12,42 +12,42 @@
       <div class="column">
         <strong>Devis en cours</strong>
         {% for devis in devisEnCours %}
-        {{devis.numero}}-{{devis.client.nom}}
+        <a href="{{ path('app_document_show', {'id': devis.id}) }}">{{devis.numero}}-{{devis.client.nom}}</a>
         <br>
         {% endfor %}
       </div>
       <div class="column">
         <strong>Devis envoyés</strong>
         {% for devis in devisEnvoyes %}
-        {{devis.numero}}-{{devis.client.nom}}
+        <a href="{{ path('app_document_show', {'id': devis.id}) }}">{{devis.numero}}-{{devis.client.nom}}</a>
         <br>
         {% endfor %}
       </div>
       <div class="column">
         <strong>Devis acceptés</strong>
         {% for devis in devisAcceptes %}
-        {{devis.numero}}-{{devis.client.nom}}
+        <a href="{{ path('app_document_show', {'id': devis.id}) }}">{{devis.numero}}-{{devis.client.nom}}</a>
         <br>
         {% endfor %}
       </div>
       <div class="column">
         <strong>Factures en cours</strong>
         {% for facture in facturesEnCours %}
-        {{facture.numero}}-{{facture.client.nom}}
+        <a href="{{ path('app_document_show', {'id': facture.id}) }}">{{facture.numero}}-{{facture.client.nom}}</a>
         <br>
         {% endfor %}
       </div>
       <div class="column">
         <strong>Factures envoyées</strong>
         {% for facture in facturesEnvoyees %}
-        {{facture.numero}}-{{facture.client.nom}}
+        <a href="{{ path('app_document_show', {'id': facture.id}) }}">{{facture.numero}}-{{facture.client.nom}}</a>
         <br>
         {% endfor %}
       </div>
       <div class="column">
         <strong>Factures payées</strong>
         {% for facture in facturesPayees %}
-        {{facture.numero}}-{{facture.client.nom}}
+        <a href="{{ path('app_document_show', {'id': facture.id}) }}">{{facture.numero}}-{{facture.client.nom}}</a>
         <br>
         {% endfor %}
       </div>

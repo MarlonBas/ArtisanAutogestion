@@ -321,6 +321,16 @@ h3, h2 {
   width: 17%;
 }
 
+.designation-table {
+  width: 50%;
+}
+
+.designation-table th,
+.designation-table td {
+  padding: 10px;
+  text-align: left;
+}
+
 .form-row {
   display: flex;
   align-items: center;

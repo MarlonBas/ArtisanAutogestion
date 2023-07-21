@@ -25,15 +25,15 @@ class Document
     #[ORM\Column]
     private String $type;
 
-    #[ORM\ManyToMany(targetEntity: Designation::class, mappedBy: 'document')]
-    private Collection $designations;
-
     #[ORM\ManyToOne(inversedBy: 'Documents')]
     private ?Client $client = null;
 
     #[ORM\ManyToOne(inversedBy: 'documents')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\OneToMany(mappedBy: 'document', targetEntity: Designation::class)]
+    private Collection $designations;
 
     public function __construct()
     {
@@ -81,33 +81,6 @@ class Document
         return $this;
     }
 
-    /**
-     * @return Collection<int, Designation>
-     */
-    public function getDesignations(): Collection
-    {
-        return $this->designations;
-    }
-
-    public function addDesignation(Designation $designation): static
-    {
-        if (!$this->designations->contains($designation)) {
-            $this->designations->add($designation);
-            $designation->addDocument($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDesignation(Designation $designation): static
-    {
-        if ($this->designations->removeElement($designation)) {
-            $designation->removeDocument($this);
-        }
-
-        return $this;
-    }
-
     public function getClient(): ?Client
     {
         return $this->client;
@@ -128,6 +101,36 @@ class Document
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Designation>
+     */
+    public function getDesignations(): Collection
+    {
+        return $this->designations;
+    }
+
+    public function addDesignation(Designation $designation): static
+    {
+        if (!$this->designations->contains($designation)) {
+            $this->designations->add($designation);
+            $designation->setDocument($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDesignation(Designation $designation): static
+    {
+        if ($this->designations->removeElement($designation)) {
+            // set the owning side to null (unless already changed)
+            if ($designation->getDocument() === $this) {
+                $designation->setDocument(null);
+            }
+        }
 
         return $this;
     }

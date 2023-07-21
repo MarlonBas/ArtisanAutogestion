@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter designations{% endblock %}
+
+{% block body %}
+{{document.numero}}
+{{document.client.nom}}
+{{date}}
+<h2>Désignations</h2>
+<table class="designation-table">
+    <thead>
+        <tr>
+            <th scope="col">Désignation</th>
+            <th scope="col">Quantite</th>
+            <th scope="col">Unité</th>
+            <th scope="col">Prix Unitaire HT</th>
+            <th scope="col">TVA</th>
+            <th scope="col">Montant</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    </tbody>
+{% for designation in designations %}
+    <tr scope="row">
+        <td>{{designation.description}}</td>
+        <td>{{designation.quantite}}</td>
+        <td>{{designation.unite}}</td>
+        <td>{{designation.prixUnitaire}}</td>
+        <td>{{designation.tva}}</td>
+        <td>{{designation.prixTotal}}</td>
+        <td><a href="{{ path('app_designation_remove', {'id': designation.id}) }}">supprimer</a></td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+<p>Total TTC: {{total}}</p>
+<h2>Ajouter une ligne</h2>
+<div style="text-align: center">
+    {{ form_start(form) }}
+    <div class="form-row">
+            <div class="form-label">{{ form_label(form.description) }}</div>
+            <div class="form-field">{{ form_widget(form.description) }}</div>
+        </div>
+        <div class="form-row">
+            <div class="form-label">{{ form_label(form.quantite) }}</div>
+            <div class="form-field">{{ form_widget(form.quantite) }}</div>
+        </div>
+        <div class="form-row">
+            <div class="form-label">{{ form_label(form.prixUnitaire) }}</div>
+            <div class="form-field">{{ form_widget(form.prixUnitaire) }}</div>
+        </div>
+        <div class="form-row">
+            <div class="form-label">{{ form_label(form.unite) }}</div>
+            <div class="form-field">{{ form_widget(form.unite) }}</div>
+        </div>
+        <div class="form-row">
+            <div class="form-label">{{ form_label(form.tva) }}</div>
+            <div class="form-field">{{ form_widget(form.tva) }}</div>
+        </div>
+    <button type="submit" class="submit-button">Ajouter ligne</button>
+    {{ form_end(form) }}
+    <td><a href="{{ path('app_document_show', {'id': document.id}) }}" class="sm-button">Terminer</a></td>
+</div>
+{% endblock %}

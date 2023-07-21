@@ -64,9 +64,6 @@ class DocumentController extends AbstractController
     #[Route('/document/create', name: 'app_document_create')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(DocumentType::class);
-        $document = new Document();
-
         $token = $this->tokenStorage->getToken();
         if ($token == null)
         {
@@ -74,6 +71,8 @@ class DocumentController extends AbstractController
         }
         $user = $token->getUser();
        
+        $form = $this->createForm(DocumentType::class);
+        $document = new Document();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -82,30 +81,96 @@ class DocumentController extends AbstractController
             $document->setNumero($document->getDate()->format('ym'));
             $entityManager->persist($document);
             $entityManager->flush();
-            if ($document->getType() == ("devisEnCours")) {
+            if ($document->getType() == "devisEnCours") {
             $this->addFlash('success', "Le devis à été enregistré avec succès");
             }
-            if ($document->getType() == ("factureEnCours")) {
+            if ($document->getType() == "factureEnCours") {
             $this->addFlash('success', "La facture à été enregistré avec succès");
             }
-            return $this->redirectToRoute('app_main');
+            return $this->redirectToRoute('app_designation_add', ['id' => $document->getId()]);
         }
         return $this -> render('document/adddocument.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/document/edit{numero}', name: 'app_document_edit', requirements: ['name' => '[a-zA-Z\s.,/]+'])]
-    public function edit(): Response
+    #[Route('/document/edit{id}', name: 'app_document_edit')]
+    public function edit(int $id, Request $request, EntityManagerInterface $entityManager, DocumentRepository $documentRepository): Response
     {
-        return $this->render('document/editdoucment.html.twig', [
-            'controller_name' => 'DocumentController',
+        $token = $this->tokenStorage->getToken();
+        if ($token == null)
+        {
+            return $this->redirectToRoute('app_login');
+        }
+        $user = $token->getUser();
+       
+        $document = $documentRepository->find($id);
+        $date = $document->getDate()->format('d-m-Y');
+        $type = $document->getType();
+        if (strpos($type, "devis") !== false) {
+            $typeName = "Devis";
+        }
+        if (strpos($type, "facture") !== false) {
+            $typeName = "Facture";
+        }
+        $form = $this->createForm(DocumentType::class, $document);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $document = $form->getData();
+            $document->setUser($user);
+            $document->setNumero($document->getDate()->format('ym'));
+            $entityManager->persist($document);
+            $entityManager->flush();
+            if ($document->getType() == "devisEnCours") {
+            $this->addFlash('success', "Le devis à été modifié avec succès");
+            }
+            if ($document->getType() == "factureEnCours") {
+            $this->addFlash('success', "La facture à été modifié avec succès");
+            }
+            return $this->redirectToRoute('app_designation_add', ['id' => $document->getId()]);
+        }
+        return $this->render('document/editdocument.html.twig', [
+            'document' => $document,
+            'date' => $date,
+            'type' => $typeName,
+            'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/document{numero}', name: 'app_document_show', requirements: ['name' => '[a-zA-Z\s.,/]+'])]
-    public function show(): Response
+    #[Route('/document{id}', name: 'app_document_show')]
+    public function show(int $id, DocumentRepository $documentRepository): Response
     {
+        $document = $documentRepository->find($id);
+        $date = $document->getDate()->format('d-m-Y');
+        $type = $document->getType();
+        $edit = false;
+        if ($type == "devisEnCours" || $type == "facturesEnCours") {
+            $edit = true;
+        }
+        if (strpos($type, "devis") !== false) {
+            $typeName = "Devis";
+        }
+        if (strpos($type, "facture") !== false) {
+            $typeName = "Facture";
+        }
+
+        $designations = $document->getDesignations()->toArray();
+        $totalHT = 0;
+        for ($i = 0; $i < count($designations); $i++) {
+            $totalHT = $totalHT + $designations[$i]->getPrixHorsTax();
+        }
+        $totalTTC = 0;
+        for ($i = 0; $i < count($designations); $i++) {
+            $totalTTC = $totalTTC + $designations[$i]->getPrixTotal();
+        }
+
         return $this->render('document/viewdocument.html.twig', [
-            'controller_name' => 'DocumentController',
+            'document' => $document,
+            'date' => $date,
+            'edit' => $edit,
+            'type' => $typeName,
+            'designations' => $designations,
+            'totalHT' => $totalHT,
+            'totalTTC' => $totalTTC,
         ]);
     }
 }
