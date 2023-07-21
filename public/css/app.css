@@ -416,3 +416,8 @@ h3, h2 {
   margin-bottom: 10px;
   text-align: center;
 }
+
+.arrow {
+  font-weight: bold;
+  font-size: 24px;
+}

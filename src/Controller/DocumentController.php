@@ -173,4 +173,51 @@ class DocumentController extends AbstractController
             'totalTTC' => $totalTTC,
         ]);
     }
+
+    #[Route('/document/move{id}/{direction}', name: 'app_document_move')]
+    public function move(int $id, String $direction, DocumentRepository $documentRepository, EntityManagerInterface $entityManager)
+    {
+        dump($direction);
+        $document = $documentRepository->find($id);
+        if ($direction == "right") {
+            if ($document->getType() == "devisEnCours") {
+                $newtype = "devisEnvoyes";
+            }
+            if ($document->getType() == "devisEnvoyes") {
+                $newtype = "devisAcceptes";
+            }
+            if ($document->getType() == "devisAcceptes") {
+                $newtype = "facturesEnCours";
+            }
+            if ($document->getType() == "facturesEnCours") {
+                $newtype = "facturesEnvoyees";
+            }
+            if ($document->getType() == "facturesEnvoyees") {
+                $newtype = "facturesPayees";
+            }
+        }
+        if ($direction == "left") {
+            if ($document->getType() == "devisEnvoyes") {
+                $newtype = "devisEnCours";
+            }
+            if ($document->getType() == "devisAcceptes") {
+                $newtype = "devisEnvoyes";
+            }
+            if ($document->getType() == "facturesEnCours") {
+                $newtype = "devisAcceptes";
+            }
+            if ($document->getType() == "facturesEnvoyees") {
+                $newtype = "facturesEnCours";
+            }
+            if ($document->getType() == "facturesPayees") {
+                $newtype = "facturesEnvoyees";
+            }
+        }
+
+        $document->setType($newtype);
+        $entityManager->persist($document);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_document_index');
+    }
 }
