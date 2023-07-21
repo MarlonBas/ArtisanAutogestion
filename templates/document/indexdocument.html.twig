@@ -12,8 +12,11 @@
       <div class="column">
         <strong>Devis en cours</strong>
         {% for devis in devisEnCours %}
+        <div class="card">
         <a href="{{ path('app_document_show', {'id': devis.id}) }}">{{devis.numero}}-{{devis.client.nom}}</a>
         <br>
+        <a href="">-></a>
+        </div>
         {% endfor %}
       </div>
       <div class="column">

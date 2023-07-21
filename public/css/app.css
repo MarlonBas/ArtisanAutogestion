@@ -92,7 +92,9 @@
   font-family: "Roboto-mono";
 }
 
-
+body {
+  background-color: #FFEADD;
+}
 
 h1 {
   font-family: "Roboto-mono";
@@ -106,10 +108,11 @@ h3, h2 {
 }
 
 .navbar {
-  background-color: rgb(214, 184, 190);
+  background-color: #FCAEAE;
   height: 80px;
   display: flex;
-  justify-content: center;
+  justify-content: left;
+  padding: 20px;
   align-items: center;
   font-size: 1.2rem;
   position: sticky;
@@ -119,19 +122,31 @@ h3, h2 {
   border-bottom: 2px solid #000;
 }
 
+.footer {
+  background-color: #FCAEAE;
+  height: 80px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: 20px;
+  position: sticky;
+  bottom: 0;
+  z-index: 999;
+  margin-top: 20px;
+  border-top: 2px solid #000;
+}
+
 .navbar__container {
   display: flex;
   justify-content: space-between;
   height: 80px;
   z-index: 1;
   width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 0 50px;
 }
 
-#navbar__logo {
+#navbar_title {
   font-size: 2rem;
+  font-weight: bold;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -141,6 +156,7 @@ h3, h2 {
 
 .navbar__menu {
   display: flex;
+  justify-content: center;
   align-items: center;
   list-style: none;
   text-align: center;
@@ -153,7 +169,7 @@ h3, h2 {
 
 .navbar__btn {
   display: flex;
-  justify-content: center;
+  justify-content: right;
   align-items: center;
   padding: 0 1rem;
   width: 100%;
@@ -170,7 +186,7 @@ h3, h2 {
   width: 100%;
   border: none;
   outline: none;
-  background: #e9dcdc;
+  background: #FF8989;
   border: 2px solid #000;
   border-radius: 10px;
 }
@@ -192,7 +208,7 @@ h3, h2 {
 .box {
   width: 100%;
   max-width: 95vw;
-  background-color: #dfdfdf;
+  background-color: #FFEADD;
   padding: 20px;
   margin-bottom: 20px;
   border: 2px solid #000;
@@ -247,7 +263,7 @@ h3, h2 {
   margin: 20px;
   padding: 10px;
   outline: none;
-  background: #e9dcdc;
+  background: #FF8989;
   border: 2px solid rgb(0, 0, 0);
   border-radius: 10px;
 }
@@ -266,7 +282,7 @@ h3, h2 {
   margin: 20px;
   padding: 10px;
   outline: none;
-  background: #e9dcdc;
+  background: #FF8989;
   border: 2px solid rgb(0, 0, 0);
   border-radius: 10px;
 }
@@ -356,7 +372,7 @@ h3, h2 {
   display: inline-block;
   padding: 10px 20px;
   margin: 20px;
-  background-color: #e9dcdc;
+  background-color: #FF8989;
   color: rgb(27, 27, 27);
   border: 2px solid rgb(0, 0, 0);
   border-radius: 10px;
@@ -390,4 +406,13 @@ h3, h2 {
 
 .column strong {
   margin-bottom: 10px;
+}
+
+.card {
+  background-color: #FCAEAE;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
 }
