@@ -19,7 +19,7 @@
       {% for client in clients %}
         <tbody>
           <tr scope="row">
-                <td><a href="{{ path('app_client_show', {'name': client.nom}) }}">{{ client.nom }}</a></td>
+                <td><a href="{{ path('app_client_show', {'name': client.nom}) }}" class="button">{{ client.nom }}</a></td>
                 <td>{{client.Email}}</td>
                 <td>{{client.Telephone}}</td>
                 <td>{{client.Adresse}}, {{client.codePostal}},{{client.ville}}</td>
