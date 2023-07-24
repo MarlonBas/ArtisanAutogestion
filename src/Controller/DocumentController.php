@@ -177,7 +177,6 @@ class DocumentController extends AbstractController
     #[Route('/document/move{id}/{direction}', name: 'app_document_move')]
     public function move(int $id, String $direction, DocumentRepository $documentRepository, EntityManagerInterface $entityManager)
     {
-        dump($direction);
         $document = $documentRepository->find($id);
         if ($direction == "right") {
             if ($document->getType() == "devisEnCours") {
