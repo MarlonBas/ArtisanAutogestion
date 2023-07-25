@@ -18,23 +18,45 @@
             text-align: center;
             margin-bottom: 30px;
         }
+        .info-container {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-between;
+        }
         .client-info {
-            margin-bottom: 20px;
+            text-align: right;
+        }
+        .company-info p,
+        .client-info p {
+            line-height: 0.2;
         }
         .items-table {
             width: 100%;
             border-collapse: collapse;
         }
         .items-table th, .items-table td {
-            border: 1px solid #ccc;
+            border: 2px solid;
             padding: 8px;
         }
         .items-table th {
             background-color: #f2f2f2;
         }
-        .total {
-            text-align: right;
-            margin-top: 20px;
+        .total-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .total-table td {
+            border: 2px solid;
+            padding: 8px;
+        }
+        .total-table th {
+            background-color: #f2f2f2;
+        }
+        .info {
+            line-height: 1;
+            text-align: justify;
+            border: 2px solid;
+            padding: 8px;
         }
     </style>
 </head>
@@ -43,14 +65,25 @@
         <div class="header">
             <h1>{{type}}</h1>
         </div>
+        <div class="info-container">
+            <div class="company-info">
+                <p>{{ user.nom}}</p>
+                <p>SIRET: {{ user.identifiantEntreprise}}</p>
+                <p>{{ user.email }}</p>
+                <p>tel:{{ document.client.telephone }}</p>
+                <p>{{ user.adresse }}, {{ user.codePostal }}, {{ user.ville}}</p>
+                <br>
+                <p>{{type}} n° {{document.numero}}</p>
+                <p>du {{date}}</p>
+            </div>
 
-        <div class="client-info">
-            <p><strong>Client:</strong> {{ document.client.nom }}</p>
-            <p><strong>Email:</strong> {{ document.client.email }}</p>
-            <p><strong>Tel:</strong> {{ document.client.telephone }}</p>
-            <p><strong>Adresse:</strong> {{ document.client.adresse }}, {{ document.client.codePostal }}, {{ document.client.ville}}</p>
+            <div class="client-info">
+                <p>{{ document.client.nom }}</p>
+                <p>{{ document.client.email }}</p>
+                <p>{{ document.client.telephone }}</p>
+                <p>{{ document.client.adresse }}, {{ document.client.codePostal }}, {{ document.client.ville}}</p>
+            </div>
         </div>
-
         <table class="items-table">
             <thead>
                 <tr>
@@ -68,17 +101,38 @@
                         <td>{{designation.description}}</td>
                         <td>{{designation.quantite}}</td>
                         <td>{{designation.unite}}</td>
-                        <td>{{designation.prixUnitaire}}</td>
-                        <td>{{designation.tva}}</td>
-                        <td>{{designation.prixTotal}}</td>
+                        <td>{{designation.prixUnitaire}}€</td>
+                        <td>{{designation.tva}}%</td>
+                        <td>{{designation.prixTotal}}€</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <div class="total">
-            <p><strong>Total HT:</strong> {{ totalHT }}</p>
-            <p><strong>Total TTC:</strong> {{ totalTTC }}</p>
-        </div>
+        <table class="total-table">
+            <tbody>
+                <tr scope="row">
+                    <td><strong>Total HT:</strong></td>
+                    <td>{{ totalHT }}€</td>
+                    <td><strong>Total TTC:</strong></td>
+                    <td>{{ totalTTC }}€</td>
+                </tr>
+            </tbody>
+        </table>
+        {% if (type == "Devis") %}
+        <p class="info">
+            Ce devis est valable jusqu'au {{dateValide}} et est soumis à confirmation écrite avant cette date. 
+            Les prix et les délais mentionnés sont sujets à changement sans préavis après l'expiration de cette offre. 
+            Les informations contenues dans ce devis sont confidentielles et ne doivent pas être divulguées à des tiers sans notre consentement écrit.
+            {{user.nom}} vous remercie de l'intérêt que vous portez à ses services et vous souhaite une très bonne journée.
+        </p>
+        {% endif %}
+        {% if (type == "Facture") %}
+        <p class="info">
+            Le paiement doit être effectué dans un délai de 30 jours à compter de la date de facturation soit le {{dateValide}}.
+            Les informations contenues dans cette facture sont confidentielles et ne doivent pas être divulguées à des tiers sans notre consentement écrit.
+            {{user.nom}} vous remercie de régler cette facture avec promptitude, cela est grandement apprécié, et vous souhaite une très bonne journée.
+        </p>
+        {% endif %}
     </div>
 </body>
 </html>

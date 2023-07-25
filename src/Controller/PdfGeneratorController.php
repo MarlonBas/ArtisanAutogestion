@@ -6,16 +6,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Dompdf\Dompdf;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use App\Repository\DocumentRepository;
  
 class PdfGeneratorController extends AbstractController
 {
+    private $tokenStorage;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
     #[Route('/pdf/generator{id}', name: 'app_pdf_generator')]
     public function index(int $id, DocumentRepository $documentRepository): Response
     {
-        // return $this->render('pdf_generator/index.html.twig', [
-        //     'controller_name' => 'PdfGeneratorController',
-        // ]);
+        $token = $this->tokenStorage->getToken();
+        if ($token == null)
+        {
+            return $this->redirectToRoute('app_login');
+        }
+        $user = $token->getUser();
+
         $document = $documentRepository->find($id);
         $type = $document->getType();
         if (strpos($type, "devis") !== false) {
@@ -34,13 +46,18 @@ class PdfGeneratorController extends AbstractController
         for ($i = 0; $i < count($designations); $i++) {
             $totalTTC = $totalTTC + $designations[$i]->getPrixTotal();
         }
+        $date = $document->getDate()->format('d/m/Y');
+        $dateValide = $document->getDate()->modify('+1 month')->format('d/m/Y');
 
         $html =  $this->renderView('pdf_generator/index.html.twig', 
         ['document' => $document,
+        'user' => $user,
         'designations' => $designations,
         'type' => $typeName,
         'totalHT' => $totalHT,
         'totalTTC' => $totalTTC,
+        'dateValide' => $dateValide,
+        'date' => $date,
         ]);
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
