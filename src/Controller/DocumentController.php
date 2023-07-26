@@ -178,6 +178,7 @@ class DocumentController extends AbstractController
     public function move(int $id, String $direction, DocumentRepository $documentRepository, EntityManagerInterface $entityManager)
     {
         $document = $documentRepository->find($id);
+        $dateUpdate = false;
         if ($direction == "right") {
             if ($document->getType() == "devisEnCours") {
                 $newtype = "devisEnvoyes";
@@ -187,6 +188,7 @@ class DocumentController extends AbstractController
             }
             if ($document->getType() == "devisAcceptes") {
                 $newtype = "facturesEnCours";
+                $dateUpdate = true;
             }
             if ($document->getType() == "facturesEnCours") {
                 $newtype = "facturesEnvoyees";
@@ -214,6 +216,9 @@ class DocumentController extends AbstractController
         }
 
         $document->setType($newtype);
+        if ($dateUpdate == true) {
+            $document->setDate(new \DateTime("now"));
+        }
         $entityManager->persist($document);
         $entityManager->flush();
 

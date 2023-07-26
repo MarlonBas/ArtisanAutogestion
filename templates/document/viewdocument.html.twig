@@ -34,6 +34,6 @@
 {% if edit %}
     <td><a href="{{ path('app_document_edit', {'id': document.id}) }}" class="sm-button">Modifier</a></td>
 {% endif %}
-<td><a href="{{ path('app_pdf_generator', {'id': document.id}) }}" class="sm-button">Générer un PDF</a></td>
+<td><a href="{{ path('app_pdf_generator', {'id': document.id}) }}" class="sm-button" target="_blank">Générer un PDF</a></td>
 <td><a href="{{ path('app_document_index', {'id': document.id}) }}" class="sm-button">Retour</a></td>
 {% endblock %}
