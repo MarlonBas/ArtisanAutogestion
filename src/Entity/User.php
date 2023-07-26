@@ -58,10 +58,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Parametres $parametres = null;
 
+    #[ORM\OneToMany(mappedBy: 'User', targetEntity: Event::class, orphanRemoval: true)]
+    private Collection $events;
+
     public function __construct()
     {
         $this->clients = new ArrayCollection();
         $this->documents = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getNom(): ?string
@@ -284,6 +288,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->parametres = $parametres;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): static
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): static
+    {
+        if ($this->events->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getUser() === $this) {
+                $event->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification d'un événement{% endblock %}
+
+{% block body %}
+<h2>{{event.nom}}</h2>
+<br>
+<div style="text-align: center">
+    {{ form_start(form) }}
+    <div class="form-row">
+            <div class="form-label">{{ form_label(form.nom) }}</div>
+            <div class="form-field">{{ form_widget(form.nom) }}</div>
+        </div>
+        <div class="form-row">
+            <div class="form-label">{{ form_label(form.description) }}</div>
+            <div class="form-field">{{ form_widget(form.description) }}</div>
+        </div>
+        <div class="form-row">
+            <div class="form-label">{{ form_label(form.date) }}</div>
+            <div class="form-field">{{ form_widget(form.date) }}</div>
+        </div>
+    <button type="submit" class="submit-button">Enregistrer</button>
+    {{ form_end(form) }}
+    <a href="{{ path('app_event_remove', {'id': event.id}) }}" class="sm-button">Supprimer</a>
+    <a href="{{ path('app_main')}}" class="sm-button">Retour</a>
+</div>
+{% endblock %}

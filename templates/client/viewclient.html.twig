@@ -14,6 +14,7 @@
     <strong>Documents associés</strong>
     {% for document in documents %}
         {{document.numero}}-{{document.client.nom}}
+        <br>
     {% endfor %}
 </div>
 <td><a href="{{ path('app_client_edit', {'name': client.nom}) }}" class="sm-button">Modifier</a></td>

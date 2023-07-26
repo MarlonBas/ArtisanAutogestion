@@ -22,4 +22,6 @@
     <button type="submit" class="submit-button">Suivant</button>
     {{ form_end(form) }}
 </div>
+<a href="{{ path('app_document_remove', {'id': document.id}) }}" class="sm-button">! Supprimer !</a>
+    <a href="{{ path('app_document_index')}}" class="sm-button">Retour</a>
 {% endblock %}

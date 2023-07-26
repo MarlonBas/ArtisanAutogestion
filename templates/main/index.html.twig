@@ -4,8 +4,37 @@
 
 {% block body %}
     <div class="box">
-      <a href="/" class="sm-button">Nouveau événement</a>
-      <br>
+    <div class="column-container">
+      <div class="column">
+        <a href="/event/add" class="sm-button">Nouveau événement</a>
+      </div>
+      <div class="column">
+          <strong>Passé</strong>
+          {% for event in past %}
+          <div class="card">
+          <a href="{{ path('app_event_show', {'id': event.id}) }}">{{event.date|date('d/m/y')}}<br>{{event.nom}}</a>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="column">
+          {% set months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'] %}
+          {% set currentMonth = "now"|date('m')|number_format(0, 0, ',', '') %}
+          <strong>{{ months[currentMonth - 1] }}({{"now"|date('m/y')}})</strong>
+          {% for event in present %}
+          <div class="card">
+          <a href="{{ path('app_event_show', {'id': event.id}) }}">{{event.date|date('d/m/y')}}<br>{{event.nom}}</a>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="column">
+          <strong>A venir</strong>
+          {% for event in futur %}
+          <div class="card">
+          <a href="{{ path('app_event_show', {'id': event.id}) }}">{{event.date|date('d/m/y')}}<br>{{event.nom}}</a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
     <div class="box2">
       <a href="/document" class="sm-button2">Devis et Factures</a> <a href="/client" class="sm-button2">Clients</a>

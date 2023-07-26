@@ -124,14 +124,7 @@ h3, h2 {
 
 .footer {
   background-color: #FCAEAE;
-  height: 80px;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  padding: 20px;
-  position: static;
-  bottom: 0;
-  z-index: 999;
+  padding: 10px;
   margin-top: 20px;
   border-top: 2px solid #000;
 }
@@ -202,7 +195,8 @@ h3, h2 {
   flex-direction: column;
   /*justify-content: center;*/
   align-items: center;
-  height: 100vh;
+  height: auto;
+  min-height: 80vh;
   }
   
 .box {
@@ -434,4 +428,26 @@ h3, h2 {
 .arrow {
   font-weight: bold;
   font-size: 24px;
+}
+
+.client-card {
+  color: rgb(27, 27, 27);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  padding: 10px 20px;
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: #FCAEAE;
+  border: 2px solid #000;
+  border-radius: 10px;
+}
+
+.client-card:hover{
+  background: yellow;
+  transition: all 0.3s ease;
+  color: rgb(27, 27, 27);
 }

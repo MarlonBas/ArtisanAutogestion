@@ -45,12 +45,12 @@ class Document
         return $this->id;
     }
 
-    public function getNumero(): ?int
+    public function getNumero(): ?String
     {
         return $this->numero;
     }
 
-    public function setNumero(int $numero): static
+    public function setNumero(String $numero): static
     {
         $this->numero = $numero;
 
@@ -134,4 +134,29 @@ class Document
 
         return $this;
     }
+
+    public function cloneDocument(): Document
+    {
+        $clonedDocument = new Document();
+        $clonedDocument->setDate($this->getDate());
+        $clonedDocument->setNumero($this->getNumero());
+        $clonedDocument->setType($this->getType());
+        $clonedDocument->setClient($this->getClient());
+        $clonedDocument->setUser($this->getUser());
+
+        foreach ($this->getDesignations() as $designation) {
+            $clonedDesignation = new Designation();
+            $clonedDesignation->setDescription($designation->getDescription());
+            $clonedDesignation->setUnite($designation->getUnite());
+            $clonedDesignation->setPrixUnitaire($designation->getPrixUnitaire());
+            $clonedDesignation->setQuantite($designation->getQuantite());
+            $clonedDesignation->setPrixHorsTax($designation->getPrixHorsTax());
+            $clonedDesignation->setTva($designation->getTva());
+
+            $clonedDocument->addDesignation($clonedDesignation);
+        }
+
+        return $clonedDocument;
+    }
+
 }

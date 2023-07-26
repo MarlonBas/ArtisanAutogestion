@@ -27,32 +27,42 @@ class MainController extends AbstractController
         }
         $user = $token->getUser();
 
-        $clients = $user->getClients()->toArray();
-        $documents = $user->getDocuments()->toArray();
+        $events = $user->getEvents()->toArray();
 
-        $devisEnCours = $this->documentTypeFilter($documents, "devisEnCours");
-        $devisEnvoyes = $this->documentTypeFilter($documents, "devisEnvoyes");
-        $devisAcceptes = $this->documentTypeFilter($documents, "devisAcceptes");
-        $facturesEnCours = $this->documentTypeFilter($documents, "facturesEnCours");
-        $facturesEnvoyees = $this->documentTypeFilter($documents, "facturesEnvoyees");
-        $facturesPayees = $this->documentTypeFilter($documents, "facturesPayees");
+        $today = new \DateTime('now');
+
+        $past = $this->eventPastFilter($events, $today);
+        $present = $this->eventPresentFilter($events, $today);
+        $futur = $this->eventFuturFilter($events, $today);
+    
 
         return $this->render('main/index.html.twig', [
-            'clients' => $clients, 
-            'devisEnCours' => $devisEnCours,
-            'devisEnvoyes' => $devisEnvoyes,
-            'devisAcceptes' => $devisAcceptes,
-            'facturesEnCours' => $facturesEnCours,
-            'facturesEnvoyees' => $facturesEnvoyees,
-            'facturesPayees' => $facturesPayees,
+            'past' => $past,
+            'present' => $present,
+            'futur' => $futur,
+            'today' => $today,
         ]);
     }
 
-    private function documentTypeFilter($documents, $type)
+    private function eventPastFilter($event, $today)
     {
-        $documentsFiltres = array_filter($documents, function ($document) use ($type) {
-            return $document->getType() === $type;
+        $eventsFiltred = array_filter($event, function ($event) use ($today) {
+            return $event->getDate() < $today;
         });
-        return $documentsFiltres;
+        return $eventsFiltred;
+    }
+    private function eventPresentFilter($event, $today)
+    {
+        $eventsFiltred = array_filter($event, function ($event) use ($today) {
+            return $event->getDate() > $today && $event->getDate()->format('m') == $today->format('m');
+        });
+        return $eventsFiltred;
+    }
+    private function eventFuturFilter($event, $today)
+    {
+        $eventsFiltred = array_filter($event, function ($event) use ($today) {
+            return $event->getDate() > $today && $event->getDate()->format('m') != $today->format('m');
+        });
+        return $eventsFiltred;
     }
 }

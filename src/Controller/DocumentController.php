@@ -62,7 +62,7 @@ class DocumentController extends AbstractController
     }
 
     #[Route('/document/create', name: 'app_document_create')]
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request, EntityManagerInterface $entityManager, DocumentRepository $documentRepository): Response
     {
         $token = $this->tokenStorage->getToken();
         if ($token == null)
@@ -74,13 +74,17 @@ class DocumentController extends AbstractController
         $form = $this->createForm(DocumentType::class);
         $document = new Document();
 
+        $monthCount = count($user->getDocuments()->toArray());
+
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $document = $form->getData();
             $document->setUser($user);
-            $document->setNumero($document->getDate()->format('ym'));
+            $document->setNumero($document->getClient()->getId().$document->getDate()->format('ym').$monthCount.$user->getId());
             $entityManager->persist($document);
             $entityManager->flush();
+            $document = $documentRepository->find($document->getId());
             if ($document->getType() == "devisEnCours") {
             $this->addFlash('success', "Le devis à été enregistré avec succès");
             }
@@ -90,6 +94,25 @@ class DocumentController extends AbstractController
             return $this->redirectToRoute('app_designation_add', ['id' => $document->getId()]);
         }
         return $this -> render('document/adddocument.html.twig', ['form' => $form->createView()]);
+    }
+
+    #[Route('/document/remove{id}', name: 'app_document_remove')]
+    public function remove($id, DocumentRepository $documentRepository, EntityManagerInterface $entityManager): Response
+    {
+        $document = $documentRepository->find($id);
+        $entityManager->remove($document);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_document_index');
+    }
+
+    #[Route('/document/archive{id}', name: 'app_document_archive')]
+    public function archive($id, DocumentRepository $documentRepository, EntityManagerInterface $entityManager): Response
+    {
+        $document = $documentRepository->find($id);
+        $document->setType("archive");
+        $entityManager->persist($document);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_document_index');
     }
 
     #[Route('/document/edit{id}', name: 'app_document_edit')]
@@ -117,7 +140,6 @@ class DocumentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $document = $form->getData();
             $document->setUser($user);
-            $document->setNumero($document->getDate()->format('ym'));
             $entityManager->persist($document);
             $entityManager->flush();
             if ($document->getType() == "devisEnCours") {
@@ -187,8 +209,11 @@ class DocumentController extends AbstractController
                 $newtype = "devisAcceptes";
             }
             if ($document->getType() == "devisAcceptes") {
-                $newtype = "facturesEnCours";
-                $dateUpdate = true;
+                $newDocument = $document->cloneDocument();
+                $newDocument->setType("facturesEnCours");
+                $entityManager->persist($newDocument);
+                $entityManager->flush();
+                return $this->redirectToRoute('app_document_index');
             }
             if ($document->getType() == "facturesEnCours") {
                 $newtype = "facturesEnvoyees";
@@ -205,7 +230,7 @@ class DocumentController extends AbstractController
                 $newtype = "devisEnvoyes";
             }
             if ($document->getType() == "facturesEnCours") {
-                $newtype = "devisAcceptes";
+                return $this->redirectToRoute('app_document_remove', ['id' => $document->getId()]);
             }
             if ($document->getType() == "facturesEnvoyees") {
                 $newtype = "facturesEnCours";
@@ -216,9 +241,6 @@ class DocumentController extends AbstractController
         }
 
         $document->setType($newtype);
-        if ($dateUpdate == true) {
-            $document->setDate(new \DateTime("now"));
-        }
         $entityManager->persist($document);
         $entityManager->flush();
 
