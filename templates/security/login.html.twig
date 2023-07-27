@@ -45,5 +45,8 @@
             Se connecter
         </button>
     </form>
+    {% if (first == true) %}
+        <a href="{{ path('app_register') }}" class="sm-button">Créer premier compte</a>
+    {% endif %}
 </div>
 {% endblock %}
