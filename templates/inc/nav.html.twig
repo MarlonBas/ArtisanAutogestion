@@ -1,7 +1,7 @@
 <nav class="navbar">
             <div class="navbar__container">
                 {% if app.user %}
-                <a href="/main" id="navbar_title">{{app.user.nom}}</a>
+                <a href="{{ path('app_main') }}" id="navbar_title">{{app.user.nom}}</a>
                 {% endif %}
                 <div class="navbar__toggle" id="mobile-menu">
                     <span class="bar"></span>
@@ -10,10 +10,10 @@
                 </div>
                 <ul class="navbar__menu">
                     <li class="navbar__btn">
-                        <a href="/logout" class="button">déconnexion</a>
+                        <a href="{{ path('app_logout') }}" class="button">déconnexion</a>
                     </li>
                     <li class="navbar__btn">
-                        <a href="/parametres" class="button">paramètres</a>
+                        <a href="{{ path('app_parametres') }} class="button">paramètres</a>
                     </li>
                 </ul>
             </div>

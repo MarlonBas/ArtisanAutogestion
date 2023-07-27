@@ -6,7 +6,7 @@
     <div class="box">
     <div class="column-container">
       <div class="column">
-        <a href="/event/add" class="sm-button">Nouveau événement</a>
+        <a href="{{ path('app_event_add') }}" class="sm-button">Nouveau événement</a>
       </div>
       <div class="column">
           <strong>Passé</strong>
@@ -37,6 +37,6 @@
       </div>
     </div>
     <div class="box2">
-      <a href="/document" class="sm-button2">Devis et Factures</a> <a href="/client" class="sm-button2">Clients</a>
+      <a href="{{ path('app_document_index') }}" class="sm-button2">Devis et Factures</a> <a href="{{ path('app_client_index') }}" class="sm-button2">Clients</a>
     </div>
 {% endblock %}
