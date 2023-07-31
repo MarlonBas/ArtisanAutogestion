@@ -32,7 +32,7 @@ class Document
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'document', targetEntity: Designation::class)]
+    #[ORM\OneToMany(mappedBy: 'document', targetEntity: Designation::class, cascade: ["remove", "persist"])]
     private Collection $designations;
 
     public function __construct()
@@ -152,6 +152,7 @@ class Document
             $clonedDesignation->setQuantite($designation->getQuantite());
             $clonedDesignation->setPrixHorsTax($designation->getPrixHorsTax());
             $clonedDesignation->setTva($designation->getTva());
+            $clonedDesignation->setPrixTotal($designation->getPrixTotal());
 
             $clonedDocument->addDesignation($clonedDesignation);
         }

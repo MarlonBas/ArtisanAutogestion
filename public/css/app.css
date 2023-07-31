@@ -127,6 +127,7 @@ h3, h2 {
   padding: 10px;
   margin-top: 20px;
   border-top: 2px solid #000;
+  height: 80px;
 }
 
 .navbar__container {

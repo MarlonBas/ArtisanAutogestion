@@ -1,20 +1,20 @@
 <nav class="navbar">
-            <div class="navbar__container">
-                {% if app.user %}
-                <a href="{{ path('app_main') }}" id="navbar_title">{{app.user.nom}}</a>
-                {% endif %}
-                <div class="navbar__toggle" id="mobile-menu">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </div>
-                <ul class="navbar__menu">
-                    <li class="navbar__btn">
-                        <a href="{{ path('app_logout') }}" class="button">déconnexion</a>
-                    </li>
-                    <li class="navbar__btn">
-                        <a href="{{ path('app_parametres') }}" class="button">paramètres</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+    <div class="navbar__container">
+    {% if app.user %}
+        <a href="{{ path('app_main') }}" id="navbar_title">{{app.user.nom}}</a>
+    {% endif %}
+        <div class="navbar__toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <ul class="navbar__menu">
+            <li class="navbar__btn">
+                <a href="{{ path('app_logout') }}" class="button">déconnexion</a>
+            </li>
+            <li class="navbar__btn">
+                <a href="{{ path('app_parametres') }}" class="button">paramètres</a>
+            </li>
+        </ul>
+    </div>
+</nav>
