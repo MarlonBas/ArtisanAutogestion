@@ -18,7 +18,10 @@ class ArchiveSearch
     private ?string $searchString = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $date = null;
+    private ?\DateTimeInterface $dateStart = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateEnd = null;
 
     public function getId(): ?int
     {
@@ -37,14 +40,26 @@ class ArchiveSearch
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDateStart(): ?\DateTimeInterface
     {
-        return $this->date;
+        return $this->dateStart;
     }
 
-    public function setDate(?\DateTimeInterface $date): static
+    public function setDateStart(?\DateTimeInterface $date): static
     {
-        $this->date = $date;
+        $this->dateStart = $date;
+
+        return $this;
+    }
+
+    public function getDateEnd(): ?\DateTimeInterface
+    {
+        return $this->dateEnd;
+    }
+
+    public function setDateEnd(?\DateTimeInterface $date): static
+    {
+        $this->dateEnd = $date;
 
         return $this;
     }

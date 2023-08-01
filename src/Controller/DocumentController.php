@@ -79,8 +79,8 @@ class DocumentController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $search = $form->getData();
-            $form = $this->createForm(ArchiveSearchType::class, $search);
-            $documents = documentSearchFilter($documents, $search);
+            //$form = $this->createForm(ArchiveSearchType::class, $search);
+            $documents = $this->documentSearchFilter($documents, $search);
         }
 
         return $this->render('document/archivedocument.html.twig', [
@@ -92,12 +92,23 @@ class DocumentController extends AbstractController
     private function documentSearchFilter($documents, $search)
     {
         $documentsFiltres = array_filter($documents, function ($document) use ($search) {
-            $find = false;
-            if (strpos($document->getClient()->getNom(), $search) != false) {
-                $find = true;
+            $find = true;
+            if ($search->getSearchString() != null) {
+                if (strpos(strtolower($document->getClient()->getNom()), strtolower($search->getSearchString())) !== false) {
+                    $find = true;
+                }
+                else if (strpos(strtolower($document->getNumero()), strtolower($search->getSearchString())) !== false) {
+                    $find = true;
+                }
+                else {
+                    $find = false;
+                }
             }
-            if (strpos($document->getClient()->getNumero(), $search) != false) {
-                $find = true;
+            if ($document->getDate() < $search->getDateStart()) {
+                $find = false;
+            }
+            else if ($document->getDate() > $search->getDateEnd()) {
+                $find = false;
             }
             return $find;
         });
