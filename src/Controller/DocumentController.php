@@ -61,6 +61,48 @@ class DocumentController extends AbstractController
         return $documentsFiltres;
     }
 
+    #[Route('/document/archiveindex', name: 'app_document_archiveindex')]
+    public function archiveIndex(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $token = $this->tokenStorage->getToken();
+        if ($token == null)
+        {
+            return $this->redirectToRoute('app_login');
+        }
+        $user = $token->getUser();
+
+        $documents = $user->getDocuments()->toArray();
+        $documents = $this->documentTypeFilter($documents, "archive");
+        
+        $form = $this->createForm(ArchiveSearchType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $form->getData();
+            $form = $this->createForm(ArchiveSearchType::class, $search);
+            $documents = documentSearchFilter($documents, $search);
+        }
+
+        return $this->render('document/archivedocument.html.twig', [
+            'documents' => $documents,
+            'form' => $form,
+        ]);
+    }
+
+    private function documentSearchFilter($documents, $search)
+    {
+        $documentsFiltres = array_filter($documents, function ($document) use ($search) {
+            $find = false;
+            if (strpos($document->getClient()->getNom(), $search) != false) {
+                $find = true;
+            }
+            if (strpos($document->getClient()->getNumero(), $search) != false) {
+                $find = true;
+            }
+            return $find;
+        });
+        return $documentsFiltres;
+    }
+
     #[Route('/document/create', name: 'app_document_create')]
     public function create(Request $request, EntityManagerInterface $entityManager, DocumentRepository $documentRepository): Response
     {

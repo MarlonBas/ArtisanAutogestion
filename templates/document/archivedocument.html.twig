@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Documents archivés{% endblock %}
+
+{% block body %}
+    <h2>Documents archivés</h2>
+    {{ form_start(form) }}
+        <div class="form-row">
+            <div class="form-label">{{ form_label(form.searchstring) }}</div>
+            <div class="form-field">{{ form_widget(form.searchstring) }}</div>
+        </div>
+        <div class="form-row">
+            <div class="form-label">{{ form_label(form.date) }}</div>
+            <div class="form-field">{{ form_widget(form.date) }}</div>
+        </div>
+        <button type="submit" class="submit-button">Rechercher</button>
+    {{ form_end(form) }}
+    {% for document in documents %}
+        <a href="{{ path('app_document_show', {'id': document.id}) }}">{{document.date|date('d/m/y')}}---{{document.numero}}---{{document.client.nom}}</a>
+        <br>
+    {% endfor %}
+{% endblock %}

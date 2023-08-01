@@ -1,12 +1,13 @@
- {% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Documents{% endblock %}
  
  
- {% block body %}
+{% block body %}
   <h2> Devis et Factures </h2>
  <div class="box">
     <a href="{{ path('app_document_create') }}" class="submit-button"> Nouveau devis ou facture</a>
+    <a href="{{ path('app_document_archiveindex') }}" class="submit-button">Archive</a>
     <br>
     <div class="column-container">
       <div class="column">
