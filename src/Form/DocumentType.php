@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityRepository;
 use App\Form\DesignationType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use \Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 
 class DocumentType extends AbstractType
@@ -47,6 +48,13 @@ class DocumentType extends AbstractType
                         ->where('client.User = :User')
                         ->setParameter('User', $user);
                 },
+            ])
+            ->add('notes', TextareaType::class, [
+                'label' => 'Notes ',
+                'required' => false,
+                'attr' => [
+                    'rows' => '3', 
+                '   cols' => '30',]
             ]);
     }
 

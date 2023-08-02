@@ -22,6 +22,9 @@ class Document
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $notes = null;
+
     #[ORM\Column]
     private String $type;
 
@@ -77,6 +80,18 @@ class Document
     public function setType(String $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    public function setNotes(string $notes): static
+    {
+        $this->notes = $notes;
 
         return $this;
     }
