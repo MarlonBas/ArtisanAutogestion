@@ -5,17 +5,32 @@
     <title>Devis</title>
     <style>
         /* Styles CSS pour le devis */
+        @font-face {
+        font-family: 'Cinzel';
+        src: url('.../fonts/Cinzel-Medium.ttf') format('truetype');
+        }
+
+        @font-face {
+        font-family: 'Roboto';
+        src: url('.../fonts/Roboto-Medium.ttf') format('truetype');
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: Roboto, sans-serif;
             line-height: 1.6;
         }
+
+        h3 {
+            font-family: Cinzel, sans-serif;
+        }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
         .header {
-            margin-bottom: 30px;
+            margin-bottom: 10px;
         }
        .info-table {
             width: 100%;
@@ -66,8 +81,9 @@
 </head>
 <body>
     <div class="container">
+    <h3>{{user.nom}} - {{user.titre}}<h3>
         <div class="header">
-            <h1>{{type}}</h1>
+            <h2>{{type}}</h2>
         </div>
        <table class="info-table">
             <tr>

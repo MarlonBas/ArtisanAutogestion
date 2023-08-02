@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,4 +41,22 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
+
+    #[Route('/register{id}', name: 'app_register_edit')]
+    public function edit(int $id, Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    {
+        $user = $userRepository->find($id);
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+          if ($form->isSubmitted()) {
+              $this->addFlash('success', "Modification de profil faite");
+              $entityManager->flush($user);
+              return $this->render('registration/edit.html.twig', [
+                'registrationForm' => $form->createView(), 'user' => $user]);
+          }
+        return $this->render('registration/edit.html.twig', [
+                'registrationForm' => $form->createView(), 'user' => $user]
+            );
+        }
 }

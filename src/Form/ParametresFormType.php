@@ -14,10 +14,8 @@ class ParametresFormType extends AbstractType
     {
         $builder
             ->add('modeMicro', CheckboxType::class, ['label' => 'Mode micro-entrepreneur ', 'required' => false,])
-            ->add('afficherSommes', CheckboxType::class, ['label' => 'Afficher total devis et factures ', 'required' => false,])
             ->add('afficherCalendrier', CheckboxType::class, ['label' => 'Afficher calendrier ', 'required' => false,])
-            ->add('afficherGraphique', CheckboxType::class, ['label' => 'Afficher graphique financier ', 'required' => false,])
-            ->add('afficherImpots', CheckboxType::class, ['label' => 'Afficher pridiction imposition ', 'required' => false,])
+    
         ;
     }
 

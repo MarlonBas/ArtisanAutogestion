@@ -34,6 +34,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $identifiantEntreprise = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $titre = null;
+
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
@@ -206,6 +209,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIdentifiantEntreprise(?string $identifiantEntreprise): static
     {
         $this->identifiantEntreprise = $identifiantEntreprise;
+
+        return $this;
+    }
+
+    public function getTitre(): ?string
+    {
+        return $this->titre;
+    }
+
+    public function setTitre(?string $titre): static
+    {
+        $this->titre = $titre;
 
         return $this;
     }

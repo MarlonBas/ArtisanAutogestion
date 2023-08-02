@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Modifier profile{% endblock %}
 
 {% block body %}
-    <h2>Crée un nouveau utilisateur</h2>
+    <h2>Modifier mon profile - {{user.nom}}</h2>
 
     {{ form_errors(registrationForm) }}
     {{ form_start(registrationForm) }}
@@ -43,7 +43,6 @@
             <div class="form-label">{{ form_label(registrationForm.titre) }}</div>
             <div class="form-field">{{ form_widget(registrationForm.titre) }}</div>
     </div>
-        <button type="submit" class="submit-button">Crée utilisateur</button>
+        <button type="submit" class="submit-button">Modifier mon profile</button>
     {{ form_end(registrationForm) }}
-
 {% endblock %}
