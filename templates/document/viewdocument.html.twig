@@ -32,9 +32,10 @@
     </tbody>
 </table>
 {% if edit %}
-    <td><a href="{{ path('app_document_edit', {'id': document.id}) }}" class="sm-button">Modifier</a></td>
+    <a href="{{ path('app_document_edit', {'id': document.id}) }}" class="sm-button">Modifier</a>
 {% endif %}
-<td><a href="{{ path('app_pdf_generator', {'id': document.id}) }}" class="sm-button" target="_blank">Générer un PDF</a></td>
-<td><a href="{{ path('app_document_archive', {'id': document.id}) }}" class="sm-button">Archiver</a><td>
-<td><a href="{{ path('app_document_index', {'id': document.id}) }}" class="sm-button">Retour</a></td>
+<a href="{{ path('app_pdf_generator', {'id': document.id}) }}" class="sm-button" target="_blank">Générer un PDF</a>
+<a href="{{ path('app_document_archive', {'id': document.id}) }}" class="sm-button">Archiver</a>
+<a href="{{ path('app_document_copy', {'id': document.id}) }}" class="sm-button">Copier</a>
+<a href="{{ path('app_document_index', {'id': document.id}) }}" class="sm-button">Retour</a>
 {% endblock %}

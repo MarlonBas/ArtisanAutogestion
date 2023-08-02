@@ -131,14 +131,14 @@ class DocumentController extends AbstractController
         $form = $this->createForm(DocumentType::class);
         $document = new Document();
 
-        $monthCount = count($user->getDocuments()->toArray());
+        $count = count($user->getDocuments()->toArray());
 
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $document = $form->getData();
             $document->setUser($user);
-            $document->setNumero($document->getClient()->getId().$document->getDate()->format('ym').$monthCount.$user->getId());
+            $document->setNumero($document->getClient()->getId().$document->getDate()->format('ym').$count.$user->getId());
             $entityManager->persist($document);
             $entityManager->flush();
             $document = $documentRepository->find($document->getId());
@@ -264,7 +264,6 @@ class DocumentController extends AbstractController
     public function move(int $id, String $direction, DocumentRepository $documentRepository, EntityManagerInterface $entityManager)
     {
         $document = $documentRepository->find($id);
-        $dateUpdate = false;
         if ($direction == "right") {
             if ($document->getType() == "devisEnCours") {
                 $newtype = "devisEnvoyes";
@@ -308,6 +307,32 @@ class DocumentController extends AbstractController
         $entityManager->persist($document);
         $entityManager->flush();
 
+        return $this->redirectToRoute('app_document_index');
+    }
+
+    #[Route('/document/copy{id}', name: 'app_document_copy')]
+    public function copy(int $id, DocumentRepository $documentRepository, EntityManagerInterface $entityManager) 
+    {
+        $token = $this->tokenStorage->getToken();
+        if ($token == null)
+        {
+            return $this->redirectToRoute('app_login');
+        }
+        $user = $token->getUser();
+
+        $count = count($user->getDocuments()->toArray());
+
+        $document = $documentRepository->find($id);
+        $newDocument = $document->cloneDocument();
+        if (strpos($document->getType(), "devis") !== false) {
+            $newDocument->setType("devisEnCours");
+        }
+        if (strpos($document->getType(), "facture") !== false) {
+            $newDocument->setType("facturesEnCours");
+        }
+        $newDocument->setNumero($document->getClient()->getId().$document->getDate()->format('ym').$count.$user->getId());
+        $entityManager->persist($newDocument);
+        $entityManager->flush();
         return $this->redirectToRoute('app_document_index');
     }
 }
