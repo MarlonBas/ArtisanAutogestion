@@ -2,42 +2,39 @@
 <html>
 <head>
     <meta charset="UTF-8">
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
     <title>Devis</title>
     <style>
-        /* Styles CSS pour le devis */
-        @font-face {
-        font-family: 'Cinzel';
-        src: url('.../fonts/Cinzel-Medium.ttf') format('truetype');
-        }
-
-        @font-face {
-        font-family: 'Roboto';
-        src: url('.../fonts/Roboto-Medium.ttf') format('truetype');
-        }
-
         body {
-            font-family: Roboto, sans-serif;
+            font-family: "Roboto", sans-serif;
             line-height: 1.6;
-        }
-
-        h3 {
-            font-family: Cinzel, sans-serif;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
         }
+
+        .highlight {
+            background-color: #008080;
+            color: white;
+            border: 1px solid rgb(0, 0, 0)
+        }
+
         .header {
             margin-bottom: 10px;
+            border-bottom: 2px solid #008080;
         }
        .info-table {
             width: 100%;
             border-collapse: collapse;
         }
         .info-table td {
-            padding: 5px;
+            padding: 0px;
             vertical-align: top;
         }
         .client-info {
@@ -50,14 +47,34 @@
         .items-table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 15px;
+            table-layout: fixed;
         }
         .items-table th, .items-table td {
             border: 1px solid;
             padding: 8px;
+            overflow: hidden;
+            word-wrap: break-word;
+            white-space: normal;
         }
         .items-table th {
-            background-color: #f2f2f2;
+            border: 1px solid rgb(0, 0, 0)
         }
+        
+        .items-table td:nth-child(2),
+        .items-table td:nth-child(3),
+        .items-table td:nth-child(5) {
+         width: 10%;
+        }
+
+        .items-table td:nth-child(4) {
+         width: 15%;
+        }
+
+        .items-table td:nth-child(6) {
+         width: 20%;
+        }
+
         .total-table {
             align: right;
             width: 100%;
@@ -81,8 +98,7 @@
 </head>
 <body>
     <div class="container">
-    <h3>{{user.nom}} - {{user.titre}}<h3>
-        <div class="header">
+         <div class="header">
             <h2>{{type}}</h2>
         </div>
        <table class="info-table">
@@ -92,15 +108,17 @@
                     <p>SIRET: {{ user.identifiantEntreprise }}</p>
                     <p>{{ user.email }}</p>
                     <p>tel:{{ document.client.telephone }}</p>
-                    <p>{{ user.adresse }}, {{ user.codePostal }}, {{ user.ville }}</p>
-                    <p>{{ type }} n° {{ document.numero }}</p>
-                    <p>du {{ date }}</p>
+                    <p>{{ user.adresse }}</p>
+                    <p>{{ user.codePostal }}, {{ user.ville }}</p>
+                    <strong>{{ type }} n° {{ document.numero }}</strong>
+                    <strong>du {{ date }}</strong>
                 </td>
                 <td class="client-info">
                     <p>{{ document.client.nom }}</p>
                     <p>{{ document.client.email }}</p>
-                    <p>{{ document.client.telephone }}</p>
-                    <p>{{ document.client.adresse }}, {{ document.client.codePostal }}, {{ document.client.ville }}</p>
+                    <p>tel:{{ document.client.telephone }}</p>
+                    <p>{{ document.client.adresse }}</p>
+                    <p>{{ document.client.codePostal }}, {{ document.client.ville }}</p>
                 </td>
             </tr>
         </table>
@@ -108,12 +126,12 @@
         <table class="items-table">
             <thead>
                 <tr>
-                    <th scope="col">Désignation</th>
-                    <th scope="col">Quantite</th>
-                    <th scope="col">Unité</th>
-                    <th scope="col">Prix Unitaire HT</th>
-                    <th scope="col">TVA</th>
-                    <th scope="col">Montant TTC</th>
+                    <th scope="col" class="highlight">Article</th>
+                    <th scope="col" class="highlight">Qte</th>
+                    <th scope="col" class="highlight">Unité</th>
+                    <th scope="col" class="highlight">P.U.HT*</th>
+                    <th scope="col" class="highlight">TVA</th>
+                    <th scope="col" class="highlight">Montant TTC</th>
                 </tr>
             </thead>
             <tbody>
@@ -139,6 +157,7 @@
                 </tr>
             </tbody>
         </table>
+        <p>Prix Unitaire*</p>
         {% if (type == "Devis") %}
         <p class="info">
             Ce devis est valable jusqu'au {{dateValide}} et est soumis à confirmation écrite avant cette date. 

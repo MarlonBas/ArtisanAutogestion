@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use App\Repository\DocumentRepository;
  
@@ -59,7 +60,9 @@ class PdfGeneratorController extends AbstractController
         'dateValide' => $dateValide,
         'date' => $date,
         ]);
+
         $dompdf = new Dompdf();
+
         $dompdf->loadHtml($html);
         $dompdf->render();
          
