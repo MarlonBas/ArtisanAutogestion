@@ -73,18 +73,21 @@ class DocumentController extends AbstractController
         $user = $token->getUser();
 
         $documents = $user->getDocuments()->toArray();
-        $documents = $this->documentTypeFilter($documents, "archive");
+        $devis = $this->documentTypeFilter($documents, "devisArchive");
+        $factures = $this->documentTypeFilter($documents, "factureArchive");
         
         $form = $this->createForm(ArchiveSearchType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $search = $form->getData();
             //$form = $this->createForm(ArchiveSearchType::class, $search);
-            $documents = $this->documentSearchFilter($documents, $search);
+            $devis = $this->documentSearchFilter($devis, $search);
+            $factures = $this->documentSearchFilter($factures, $search);
         }
 
         return $this->render('document/archivedocument.html.twig', [
-            'documents' => $documents,
+            'devis' => $devis,
+            'factures' => $factures,
             'form' => $form,
         ]);
     }
@@ -163,7 +166,14 @@ class DocumentController extends AbstractController
     public function archive($id, DocumentRepository $documentRepository, EntityManagerInterface $entityManager): Response
     {
         $document = $documentRepository->find($id);
-        $document->setType("archive");
+        $type = $document->getType();
+        if (strpos($type, "devis") !== false) {
+            $newType = "devisArchive";
+        }
+        if (strpos($type, "facture") !== false) {
+            $newType = "factureArchive";
+        }
+        $document->setType($newType);
         $entityManager->persist($document);
         $entityManager->flush();
         return $this->redirectToRoute('app_document_index');

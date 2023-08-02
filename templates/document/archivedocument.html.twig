@@ -19,7 +19,15 @@
         </div>
         <button type="submit" class="submit-button">Rechercher</button>
     {{ form_end(form) }}
-    {% for document in documents %}
+    <p>Devis</p>
+    <br>
+    {% for document in devis %}
+        <a href="{{ path('app_document_show', {'id': document.id}) }}">{{document.date|date('d/m/y')}}---{{document.numero}}---{{document.client.nom}}</a>
+        <br>
+    {% endfor %}
+    <p>Factures</p>
+    <br>
+    {% for document in factures %}
         <a href="{{ path('app_document_show', {'id': document.id}) }}">{{document.date|date('d/m/y')}}---{{document.numero}}---{{document.client.nom}}</a>
         <br>
     {% endfor %}
