@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Se connecter</title>
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    </head>
-    <body>
-        <div class="container">
-            <div class="login">
+{% extends 'base.html.twig' %}
+
+{% block title %}Artisan.Autogestion{% endblock %}
+
+{% block body %}
+<div class="login">
     <form method="post">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -48,7 +43,7 @@
             </div>
         #}
         <br>
-        <button class="btn btn-lg btn-primary" type="submit">
+        <button class="sm-button3" type="submit">
             Se connecter
         </button>
     </form>
@@ -56,7 +51,4 @@
         <a href="{{ path('app_register') }}" class="sm-button">Créer premier compte</a>
     {% endif %}
 </div>
-        </div>
-        {% include '/inc/foot.html.twig' %}
-    </body>
-</html>
+{% endblock %}

@@ -8,6 +8,15 @@
     font-size: 16px;
   }
   
+  .navbar__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 200px;
+    z-index: 1;
+    width: 100%;
+  }
+
   .navbar__menu {
     flex-direction: column;
   }
@@ -35,13 +44,14 @@
 
   .navbar {
     background-color: #FCAEAE;
-    height: 160px;
+    height: 220px;
     display: flex;
     justify-content: left;
-    padding: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
     align-items: center;
     font-size: 1.2rem;
-    position: sticky;
+    
     top: 0;
     z-index: 999;
     margin-bottom: 20px;
@@ -94,6 +104,14 @@
 
     .hidden-big {
       display: none;
+    }
+
+    .navbar__container {
+      display: flex;
+      justify-content: space-between;
+      height: 80px;
+      z-index: 1;
+      width: 100%;
     }
 
     .navbar {
@@ -187,13 +205,6 @@ h3, h2 {
   display: none;
 }
 
-.navbar__container {
-  display: flex;
-  justify-content: space-between;
-  height: 80px;
-  z-index: 1;
-  width: 100%;
-}
 
 #navbar_title {
   font-size: 2rem;
@@ -320,14 +331,25 @@ h3, h2 {
   border-radius: 10px;
 }
 
-
-.sm-button:hover{
-  background: yellow;
-  transition: all 0.3s ease;
+.sm-button3 {
   color: rgb(27, 27, 27);
+  
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  padding: 10px 20px;
+  width: 20%;
+  max-width: 300px;
+  min-width: 150px;
+  margin: 20px;
+  padding: 10px;
+  outline: none;
+  background: #FF8989;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 10px;
 }
 
-.sm-button2:hover{
+.sm-button:hover, .sm-button2:hover, .sm-button3:hover{
   background: yellow;
   transition: all 0.3s ease;
   color: rgb(27, 27, 27);
