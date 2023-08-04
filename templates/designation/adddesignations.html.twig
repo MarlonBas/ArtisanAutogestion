@@ -10,11 +10,13 @@
 <table class="designation-table">
     <thead>
         <tr>
-            <th scope="col">Désignation</th>
+            <th scope="col">Article</th>
             <th scope="col">Quantite</th>
             <th scope="col">Unité</th>
             <th scope="col">Prix Unitaire HT</th>
+            {% if (app.user.parametres.modeMicro != true) %}
             <th scope="col">TVA</th>
+            {% endif %}
             <th scope="col">Montant</th>
             <th scope="col"></th>
         </tr>
@@ -25,15 +27,17 @@
         <td>{{designation.description}}</td>
         <td>{{designation.quantite}}</td>
         <td>{{designation.unite}}</td>
-        <td>{{designation.prixUnitaire}}</td>
+        <td>{{designation.prixUnitaire}}€</td>
+        {% if (app.user.parametres.modeMicro != true) %}
         <td>{{designation.tva}}</td>
-        <td>{{designation.prixTotal}}</td>
+        {% endif %}
+        <td>{{designation.prixTotal}}€</td>
         <td><a href="{{ path('app_designation_remove', {'id': designation.id}) }}">supprimer</a></td>
     </tr>
 {% endfor %}
     </tbody>
 </table>
-<p>Total TTC: {{total}}</p>
+<p>Total TTC: {{total}}€</p>
 <h2>Ajouter une ligne</h2>
 <div style="text-align: center">
     {{ form_start(form) }}
@@ -53,10 +57,18 @@
             <div class="form-label">{{ form_label(form.unite) }}</div>
             <div class="form-field">{{ form_widget(form.unite) }}</div>
         </div>
+        {% if (app.user.parametres.modeMicro != true) %}
         <div class="form-row">
             <div class="form-label">{{ form_label(form.tva) }}</div>
             <div class="form-field">{{ form_widget(form.tva) }}</div>
         </div>
+        {% endif %}
+        {% if (app.user.parametres.modeMicro) %}
+        <div class="form-row">
+            <div class="form-label hidden">{{ form_label(form.tva) }}</div>
+            <div class="form-field hidden">{{ form_widget(form.tva) }}</div>
+        </div>
+        {% endif %}
     <button type="submit" class="submit-button">Ajouter ligne</button>
     {{ form_end(form) }}
     <td><a href="{{ path('app_document_show', {'id': document.id}) }}" class="sm-button">Terminer</a></td>

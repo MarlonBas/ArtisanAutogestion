@@ -5,18 +5,21 @@
 {% block body %}
 <h2>{{type}} n°{{document.numero}} du {{date}} pour {{document.client.nom}}</h2>
 <br>
-<p>Pour un total de {{totalHT}}€ HT et {{totalTTC}}€ TTC.</p>
+<p>Pour un total de {{totalHT}}€ {% if (app.user.parametres.modeMicro != true) %}HT et {{totalTTC}}€ TTC.{% endif %}</p>
 <br>
 <p>{{document.notes}}</p>
 <br>
+
 <table class="designation-table">
     <thead>
         <tr>
-            <th scope="col">Désignation</th>
+            <th scope="col">Article</th>
             <th scope="col">Quantite</th>
             <th scope="col">Unité</th>
             <th scope="col">Prix Unitaire HT</th>
-            <th scope="col">TVA</th>
+            {% if (app.user.parametres.modeMicro != true) %}
+                <th scope="col">TVA</th>
+            {% endif %}
             <th scope="col">Montant</th>
         </tr>
     </thead>
@@ -26,17 +29,19 @@
         <td>{{designation.description}}</td>
         <td>{{designation.quantite}}</td>
         <td>{{designation.unite}}</td>
-        <td>{{designation.prixUnitaire}}</td>
-        <td>{{designation.tva}}</td>
-        <td>{{designation.prixTotal}}</td>
+        <td>{{designation.prixUnitaire}}€</td>
+        {% if (app.user.parametres.modeMicro != true) %}
+            <td>{{designation.tva}}</td>
+        {% endif %}
+        <td>{{designation.prixTotal}}€</td>
     </tr>
 {% endfor %}
     </tbody>
 </table>
+<a href="{{ path('app_pdf_generator', {'id': document.id}) }}" class="sm-button" target="_blank">Générer un PDF</a>
 {% if edit %}
     <a href="{{ path('app_document_edit', {'id': document.id}) }}" class="sm-button">Modifier</a>
 {% endif %}
-<a href="{{ path('app_pdf_generator', {'id': document.id}) }}" class="sm-button" target="_blank">Générer un PDF</a>
 <a href="{{ path('app_document_archive', {'id': document.id}) }}" class="sm-button">Archiver</a>
 <a href="{{ path('app_document_copy', {'id': document.id}) }}" class="sm-button">Copier</a>
 <a href="{{ path('app_document_index', {'id': document.id}) }}" class="sm-button">Retour</a>

@@ -12,12 +12,28 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\DocumentRepository;
 use App\Repository\DesignationRepository;
 use App\Entity\Document;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class DesignationController extends AbstractController
 {
+    private $tokenStorage;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
     #[Route('/designation{id}', name: 'app_designation_add')]
     public function add(int $id, Request $request, EntityManagerInterface $entityManager, DocumentRepository $documentRepository): Response
     {
+        $token = $this->tokenStorage->getToken();
+        if ($token == null)
+        {
+            return $this->redirectToRoute('app_login');
+        }
+        $user = $token->getUser();
+        $micro = $user->getParametres()->isModeMicro();
+
         $document = $documentRepository->find($id);
         $date = $document->getDate()->format('d-m-Y');
         $designations = $document->getDesignations()->toArray();
@@ -31,10 +47,21 @@ class DesignationController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $designation = $form->getData();
-            
             $designation->setDocument($document);
             $designation->setPrixHorsTax($designation->getPrixUnitaire()*$designation->getQuantite());
-            $designation->setPrixTotal($designation->getPrixHorsTax()+$designation->getPrixHorsTax()*(1/$designation->getTva()));
+            if ($designation->getUnite() == null) {
+                $designation->setUnite(" ");
+            }
+            if ($designation->getTva() == null) {
+                $designation->setTva(0);
+            }
+
+            if ($micro != true && $designation->getTva() > 0) {
+                $designation->setPrixTotal($designation->getPrixHorsTax()+$designation->getPrixHorsTax()*(1/$designation->getTva()));
+            }
+            if ($micro == true) {
+                $designation->setPrixTotal($designation->getPrixHorsTax());
+            }
 
             $entityManager->persist($designation);
             $entityManager->flush();
@@ -47,6 +74,7 @@ class DesignationController extends AbstractController
             'designations' => $designations,
             'form' => $form,
             'total' => $total,
+            'micro' => $micro,
         ]);
     }
 

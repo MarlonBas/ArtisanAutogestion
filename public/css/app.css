@@ -107,6 +107,10 @@ h3, h2 {
   margin: 20px;
 }
 
+.hidden {
+  display: none;
+}
+
 .navbar {
   background-color: #FCAEAE;
   height: 80px;

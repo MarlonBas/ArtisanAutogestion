@@ -44,20 +44,20 @@
         .client-info p {
             line-height: 0.2;
         }
-        .items-table {
+        .items-table, .items-table2 {
             width: 100%;
             border-collapse: collapse;
             font-size: 15px;
             table-layout: fixed;
         }
-        .items-table th, .items-table td {
+        .items-table th, .items-table td, .items-table2 th, , .items-table2 td {
             border: 1px solid;
             padding: 8px;
             overflow: hidden;
             word-wrap: break-word;
             white-space: normal;
         }
-        .items-table th {
+        .items-table th, .items-table2 th {
             border: 1px solid rgb(0, 0, 0)
         }
         
@@ -75,17 +75,40 @@
          width: 20%;
         }
 
+        .items-table2 td:nth-child(2),
+        .items-table2 td:nth-child(3),
+        .items-table2 td:nth-child(4) {
+         width: 10%;
+        }
+
+        .items-table2 td:nth-child(5) {
+         width: 20%;
+        }
+
         .total-table {
             align: right;
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px
+            margin-top: 10px;
         }
-        .total-table td {
+        .total-table2 {
+            align: right;
+            width: 30%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-left: 480px;
+            table-layout: fixed;
+        }
+
+        .total-table2 td:nth-child(2) {
+         width: 67%;
+        }
+      
+        .total-table td, .total-table2 td {
             border: 1px solid;
             padding: 8px;
         }
-        .total-table th {
+        .total-table th, .total-table2 th {
             background-color: #f2f2f2;
         }
         .info {
@@ -123,40 +146,75 @@
             </tr>
         </table>
         <p>{{document.notes}}</p>
-        <table class="items-table">
-            <thead>
-                <tr>
-                    <th scope="col" class="highlight">Article</th>
-                    <th scope="col" class="highlight">Qte</th>
-                    <th scope="col" class="highlight">Unité</th>
-                    <th scope="col" class="highlight">P.U.HT*</th>
-                    <th scope="col" class="highlight">TVA</th>
-                    <th scope="col" class="highlight">Montant TTC</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for designation in designations %}
-                    <tr scope="row">
-                        <td>{{designation.description}}</td>
-                        <td>{{designation.quantite}}</td>
-                        <td>{{designation.unite}}</td>
-                        <td>{{designation.prixUnitaire}}€</td>
-                        <td>{{designation.tva}}%</td>
-                        <td>{{designation.prixTotal}}€</td>
+        {% if (user.parametres.modeMicro != true) %}
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th scope="col" class="highlight">Article</th>
+                        <th scope="col" class="highlight">Qte</th>
+                        <th scope="col" class="highlight">Unité</th>
+                        <th scope="col" class="highlight">P.U.HT*</th>
+                        <th scope="col" class="highlight">TVA</th>
+                        <th scope="col" class="highlight">Montant TTC</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <table class="total-table">
-            <tbody>
-                <tr scope="row">
-                    <td><strong>Total HT:</strong></td>
-                    <td>{{ totalHT }}€</td>
-                    <td><strong>Total TTC:</strong></td>
-                    <td>{{ totalTTC }}€</td>
-                </tr>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for designation in designations %}
+                        <tr scope="row">
+                            <td>{{designation.description}}</td>
+                            <td>{{designation.quantite}}</td>
+                            <td>{{designation.unite}}</td>
+                            <td>{{designation.prixUnitaire}}€</td>
+                            <td>{{designation.tva}}%</td>
+                            <td>{{designation.prixTotal}}€</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <table class="total-table">
+                <tbody>
+                    <tr scope="row">
+                        <td><strong>Total HT:</strong></td>
+                        <td>{{ totalHT }}€</td>
+                        <td><strong>Total TTC:</strong></td>
+                        <td>{{ totalTTC }}€</td>
+                    </tr>
+                </tbody>
+            </table>
+        {% endif %}
+         {% if (user.parametres.modeMicro) %}
+             <table class="items-table2">
+                <thead>
+                    <tr>
+                        <th scope="col" class="highlight">Article</th>
+                        <th scope="col" class="highlight">Qte</th>
+                        <th scope="col" class="highlight">Unité</th>
+                        <th scope="col" class="highlight">P.U*</th>
+                        <th scope="col" class="highlight">Montant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for designation in designations %}
+                        <tr scope="row">
+                            <td>{{designation.description}}</td>
+                            <td>{{designation.quantite}}</td>
+                            <td>{{designation.unite}}</td>
+                            <td>{{designation.prixUnitaire}}€</td>
+                            <td>{{designation.prixTotal}}€</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <table class="total-table2">
+                <tbody>
+                    <tr scope="row">
+                        <td><strong>Total:</strong></td>
+                        <td>{{ totalTTC }}€</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="text-align: right;">TVA non applicable, art. 293 B du Code Général des Impôts</p>
+        {% endif %}
         <p>Prix Unitaire*</p>
         {% if (type == "Devis") %}
         <p class="info">

@@ -19,10 +19,14 @@ class DesignationType extends AbstractType
                     'rows' => '3', 
                 '   cols' => '30',]
             ])
-            ->add('unite', null, ['label' => 'Unité '])
+            ->add('unite', null, ['label' => 'Unité ',
+            'required' => false,])
             ->add('prixUnitaire', null, ['label' => 'Prix unitaire '])
             ->add('quantite', null, ['label' => 'Quantité '])
-            ->add('tva', null, ['label' => 'TVA(%) '])
+            ->add('tva', null, ['label' => 'TVA(%) ',
+            'required' => false,
+            'data' => 20,
+            ])
         ;
     }
 
