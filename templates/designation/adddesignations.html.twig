@@ -11,11 +11,11 @@
     <thead>
         <tr>
             <th scope="col">Article</th>
-            <th scope="col">Quantite</th>
-            <th scope="col">Unité</th>
-            <th scope="col">Prix Unitaire HT</th>
+            <th scope="col" class="hidden-small">Quantite</th>
+            <th scope="col" class="hidden-small">Unité</th>
+            <th scope="col" class="hidden-small">Prix Unitaire HT</th>
             {% if (app.user.parametres.modeMicro != true) %}
-            <th scope="col">TVA</th>
+            <th scope="col" class="hidden-small">TVA</th>
             {% endif %}
             <th scope="col">Montant</th>
             <th scope="col"></th>
@@ -25,11 +25,11 @@
 {% for designation in designations %}
     <tr scope="row">
         <td>{{designation.description}}</td>
-        <td>{{designation.quantite}}</td>
-        <td>{{designation.unite}}</td>
-        <td>{{designation.prixUnitaire}}€</td>
+        <td class="hidden-small">{{designation.quantite}}</td>
+        <td class="hidden-small">{{designation.unite}}</td>
+        <td class="hidden-small">{{designation.prixUnitaire}}€</td>
         {% if (app.user.parametres.modeMicro != true) %}
-        <td>{{designation.tva}}</td>
+        <td class="hidden-small">{{designation.tva}}</td>
         {% endif %}
         <td>{{designation.prixTotal}}€</td>
         <td><a href="{{ path('app_designation_remove', {'id': designation.id}) }}">supprimer</a></td>
