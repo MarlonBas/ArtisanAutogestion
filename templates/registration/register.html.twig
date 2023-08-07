@@ -7,42 +7,46 @@
 
     {{ form_errors(registrationForm) }}
     {{ form_start(registrationForm) }}
-    <div class="form-row">
-            <div class="form-label">{{ form_label(registrationForm.email) }}</div>
-            <div class="form-field">{{ form_widget(registrationForm.email) }}</div>
-    </div>
-    <div class="form-row">
-            <div class="form-label">{{ form_label(registrationForm.plainPassword) }}</div>
-            <div class="form-field">{{ form_widget(registrationForm.plainPassword) }}</div>
-    </div>
-    <div class="form-row">
-            <div class="form-label">{{ form_label(registrationForm.nom) }}</div>
-            <div class="form-field">{{ form_widget(registrationForm.nom) }}</div>
-    </div>
-    <div class="form-row">
-            <div class="form-label">{{ form_label(registrationForm.adresse) }}</div>
-            <div class="form-field">{{ form_widget(registrationForm.adresse) }}</div>
-    </div>
-    <div class="form-row">
-            <div class="form-label">{{ form_label(registrationForm.codePostal) }}</div>
-            <div class="form-field">{{ form_widget(registrationForm.codePostal) }}</div>
-    </div>
-    <div class="form-row">
-            <div class="form-label">{{ form_label(registrationForm.ville) }}</div>
-            <div class="form-field">{{ form_widget(registrationForm.ville) }}</div>
-    </div>
-    <div class="form-row">
-            <div class="form-label">{{ form_label(registrationForm.telephone) }}</div>
-            <div class="form-field">{{ form_widget(registrationForm.telephone) }}</div>
-    </div>
-    <div class="form-row">
-            <div class="form-label">{{ form_label(registrationForm.identifiantEntreprise) }}</div>
-            <div class="form-field">{{ form_widget(registrationForm.identifiantEntreprise) }}</div>
-    </div>
-    <div class="form-row">
-            <div class="form-label">{{ form_label(registrationForm.titre) }}</div>
-            <div class="form-field">{{ form_widget(registrationForm.titre) }}</div>
-    </div>
+        <div class="form-row">
+                <div class="form-label">{{ form_label(registrationForm.email) }}</div>
+                <div class="form-field">{{ form_widget(registrationForm.email) }}</div>
+        </div>
+        <div class="form-row">
+                <div class="form-label">{{ form_label(registrationForm.plainPassword) }}</div>
+                <div class="form-field">{{ form_widget(registrationForm.plainPassword) }}</div>
+        </div>
+        <div class="form-row">
+                <div class="form-label">{{ form_label(registrationForm.nom) }}</div>
+                <div class="form-field">{{ form_widget(registrationForm.nom) }}</div>
+        </div>
+        <div class="form-row">
+                <div class="form-label">{{ form_label(registrationForm.adresse) }}</div>
+                <div class="form-field">{{ form_widget(registrationForm.adresse) }}</div>
+        </div>
+        <div class="form-row">
+                <div class="form-label">{{ form_label(registrationForm.codePostal) }}</div>
+                <div class="form-field">{{ form_widget(registrationForm.codePostal) }}</div>
+        </div>
+        <div class="form-row">
+                <div class="form-label">{{ form_label(registrationForm.ville) }}</div>
+                <div class="form-field">{{ form_widget(registrationForm.ville) }}</div>
+        </div>
+        <div class="form-row">
+                <div class="form-label">{{ form_label(registrationForm.telephone) }}</div>
+                <div class="form-field">{{ form_widget(registrationForm.telephone) }}</div>
+        </div>
+        <div class="form-row">
+                <div class="form-label">{{ form_label(registrationForm.identifiantEntreprise) }}</div>
+                <div class="form-field">{{ form_widget(registrationForm.identifiantEntreprise) }}</div>
+        </div>
+        <div class="form-row">
+                <div class="form-label">{{ form_label(registrationForm.titre) }}</div>
+                <div class="form-field">{{ form_widget(registrationForm.titre) }}</div>
+        </div>
+        <div class="form-row">
+            <div class="form-label">{{ form_label(registrationForm.detailsPayment) }}</div>
+            <div class="form-field">{{ form_widget(registrationForm.detailsPayment) }}</div>
+        </div>
         <button type="submit" class="submit-button">Crée utilisateur</button>
     {{ form_end(registrationForm) }}
 

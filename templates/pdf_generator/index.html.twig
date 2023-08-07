@@ -2,9 +2,6 @@
 <html>
 <head>
     <meta charset="UTF-8">
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
     <title>Devis</title>
     <style>
         body {
@@ -20,18 +17,20 @@
         }
 
         .highlight {
-            background-color: #008080;
+            background-color: #7F1734;
             color: white;
             border: 1px solid rgb(0, 0, 0)
         }
 
         .header {
             margin-bottom: 10px;
-            border-bottom: 2px solid #008080;
+            border-bottom: 2px solid #7F1734;
+            font-family: "Cinzel", serif;
         }
        .info-table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 12px;
         }
         .info-table td {
             padding: 0px;
@@ -47,18 +46,23 @@
         .items-table, .items-table2 {
             width: 100%;
             border-collapse: collapse;
-            font-size: 15px;
+            font-size: 12px;
             table-layout: fixed;
+            border: 1px solid;
         }
         .items-table th, .items-table td, .items-table2 th, , .items-table2 td {
-            border: 1px solid;
             padding: 8px;
             overflow: hidden;
             word-wrap: break-word;
             white-space: normal;
+            border-bottom: 1px solid;
         }
         .items-table th, .items-table2 th {
             border: 1px solid rgb(0, 0, 0)
+        }
+
+        .item-table td, .item-table2 td {
+            color: #7F1734;
         }
         
         .items-table td:nth-child(2),
@@ -90,6 +94,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
+            border: 1px solid;
         }
         .total-table2 {
             align: right;
@@ -98,6 +103,7 @@
             margin-top: 10px;
             margin-left: 480px;
             table-layout: fixed;
+            border: 1px solid;
         }
 
         .total-table2 td:nth-child(2) {
@@ -105,7 +111,6 @@
         }
       
         .total-table td, .total-table2 td {
-            border: 1px solid;
             padding: 8px;
         }
         .total-table th, .total-table2 th {
@@ -117,12 +122,15 @@
             border: 1px solid;
             padding: 8px;
         }
+        .smaller-text {
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
          <div class="header">
-            <h2>{{type}}</h2>
+            <h2>{{ user.titre }} - {{ type }}</h2>
         </div>
        <table class="info-table">
             <tr>
@@ -215,9 +223,9 @@
             </table>
             <p style="text-align: right;">TVA non applicable, art. 293 B du Code Général des Impôts</p>
         {% endif %}
-        <p>Prix Unitaire*</p>
+        <p class="smaller-text">Prix Unitaire*</p>
         {% if (type == "Devis") %}
-        <p class="info">
+        <p class="info smaller-text">
             Ce devis est valable jusqu'au {{dateValide}} et est soumis à confirmation écrite avant cette date. 
             Les prix et les délais mentionnés sont sujets à changement sans préavis après l'expiration de cette offre. 
             Les informations contenues dans ce devis sont confidentielles et ne doivent pas être divulguées à des tiers sans notre consentement écrit.
@@ -226,6 +234,16 @@
         {% endif %}
         {% if (type == "Facture") %}
         <p class="info">
+            Coordonnées bancaires
+            <br> 
+            {{ user.nom }}
+            <br>
+            {% for ligne in lignesBanque %}
+                {{ ligne }}
+                <br>
+            {% endfor %}
+        </p>
+        <p class="info smaller-text">
             Le paiement doit être effectué dans un délai de 30 jours à compter de la date de facturation soit le {{dateValide}}.
             Les informations contenues dans cette facture sont confidentielles et ne doivent pas être divulguées à des tiers sans notre consentement écrit.
             {{user.nom}} vous remercie par avance de régler cette facture avec promptitude, cela est grandement apprécié.

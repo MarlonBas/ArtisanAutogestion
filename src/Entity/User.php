@@ -52,6 +52,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100)]
     private ?string $telephone = null;
 
+    #[ORM\Column(length: 100)]
+    private ?string $detailsPayment = null;
+
     #[ORM\OneToMany(mappedBy: 'User', targetEntity: Client::class)]
     private Collection $clients;
 
@@ -127,6 +130,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTelephone(string $telephone): static
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getDetailsPayment(): ?string
+    {
+        return $this->detailsPayment;
+    }
+
+    public function setDetailsPayment(string $detailsPayment): static
+    {
+        $this->detailsPayment = $detailsPayment;
 
         return $this;
     }

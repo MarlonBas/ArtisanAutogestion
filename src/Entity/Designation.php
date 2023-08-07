@@ -24,16 +24,16 @@ class Designation
     #[ORM\Column(nullable: true)]
     private ?float $prixUnitaire = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?float $quantite = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?float $prixHorsTax = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?float $prixTotal = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $tva = null;
 
     #[ORM\ManyToOne(inversedBy: 'designations')]

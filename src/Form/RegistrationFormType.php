@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -35,6 +36,12 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Téléphone ',])
             ->add('email', TextType::class, [
                 'label' => 'Email ',])
+            ->add('detailsPayment', TextareaType::class, [
+                'label' => 'Coordonnées bancaires ',
+                'attr' => [
+                    'rows' => '3', 
+                '   cols' => '50',]
+                ])
             
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,

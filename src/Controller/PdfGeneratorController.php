@@ -50,6 +50,8 @@ class PdfGeneratorController extends AbstractController
         $date = $document->getDate()->format('d/m/Y');
         $dateValide = $document->getDate()->modify('+1 month')->format('d/m/Y');
 
+        $lignesBanque = explode("\n",$user->getDetailsPayment());
+
         $html =  $this->renderView('pdf_generator/index.html.twig', 
         ['document' => $document,
         'user' => $user,
@@ -59,6 +61,7 @@ class PdfGeneratorController extends AbstractController
         'totalTTC' => $totalTTC,
         'dateValide' => $dateValide,
         'date' => $date,
+        'lignesBanque' => $lignesBanque,
         ]);
 
         $dompdf = new Dompdf();
