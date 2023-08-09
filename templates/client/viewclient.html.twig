@@ -9,7 +9,11 @@
 <br>
 {{client.Telephone}}
 <br>
-{{client.Adresse}}, {{client.codePostal}}, {{client.ville}}</p>
+{{client.Adresse}}, {{client.codePostal}}, {{client.ville}}
+<br>
+{% if (client.siret) %}
+   SIRET: {{ client.siret }}
+{% endif %}</p>
 <div class="column" style="text-align: center">
     <strong>Documents associés</strong>
     {% for document in documents %}

@@ -36,6 +36,9 @@ class Client
     #[ORM\Column(length: 100)]
     private ?string $telephone = null;
 
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $siret = null;
+
     #[ORM\ManyToOne(inversedBy: 'clients')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $User = null;
@@ -64,6 +67,17 @@ class Client
     {
         $this->email = $email;
 
+        return $this;
+    }
+
+    public function getSiret(): ?string
+    {
+        return $this->siret;
+    }
+
+    public function setSiret(?string $siret): static
+    {
+        $this->siret = $siret;
         return $this;
     }
 

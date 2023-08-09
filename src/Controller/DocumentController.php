@@ -138,6 +138,9 @@ class DocumentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $document = $form->getData();
             $document->setUser($user);
+            if ($user->getParametres()->isModeMicro()) {
+                $document->setTva(0);
+            }
             $document->setNumero($document->getClient()->getId().$document->getDate()->format('ym').$count.$user->getId());
             $entityManager->persist($document);
             $entityManager->flush();
@@ -204,6 +207,9 @@ class DocumentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $document = $form->getData();
             $document->setUser($user);
+            if ($user->getParametres()->isModeMicro()) {
+                $document->setTva(0);
+            }
             $entityManager->persist($document);
             $entityManager->flush();
             if ($document->getType() == "devisEnCours") {

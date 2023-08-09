@@ -30,6 +30,10 @@
             <div class="form-label">{{ form_label(form.ville) }}</div>
             <div class="form-field">{{ form_widget(form.ville) }}</div>
         </div>
+         <div class="form-row">
+            <div class="form-label">{{ form_label(form.siret) }}</div>
+            <div class="form-field">{{ form_widget(form.siret) }}</div>
+        </div>
     <button type="submit" class="submit-button">Enregister</button>
     {{ form_end(form) }}
     <td><a href="{{ path('app_client_remove', {'name': client.nom}) }}" class="sm-button">/!\ Supprimer le client /!\</a></td>

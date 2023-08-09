@@ -35,7 +35,8 @@ class DocumentType extends AbstractType
                 'widget' => 'single_text'])
 
             ->add('tva', null, ['label' => 'Taux de TVA (%)',
-            'property_path' => 'tva'])
+            'property_path' => 'tva',
+            'data' => 20])
 
             ->add('type', ChoiceType::class, [
                 'choices' => [

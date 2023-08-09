@@ -160,6 +160,9 @@
                 </td>
                 <td class="client-info">
                     <p>{{ document.client.nom }}</p>
+                    {% if (document.client.siret) %}
+                        <p>SIRET: {{ document.client.siret }}</p>
+                    {% endif %}
                     <p>{{ document.client.email }}</p>
                     <p>tel:{{ document.client.telephone }}</p>
                     <p>{{ document.client.adresse }}</p>
