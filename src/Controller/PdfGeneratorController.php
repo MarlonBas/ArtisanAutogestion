@@ -47,6 +47,7 @@ class PdfGeneratorController extends AbstractController
         for ($i = 0; $i < count($designations); $i++) {
             $totalTTC = $totalTTC + $designations[$i]->getPrixTotal();
         }
+        $totalTVA = $totalTTC-$totalHT;
         $date = $document->getDate()->format('d/m/Y');
         $dateValide = $document->getDate()->modify('+1 month')->format('d/m/Y');
 
@@ -59,6 +60,7 @@ class PdfGeneratorController extends AbstractController
         'type' => $typeName,
         'totalHT' => $totalHT,
         'totalTTC' => $totalTTC,
+        'totalTVA' => $totalTVA,
         'dateValide' => $dateValide,
         'date' => $date,
         'lignesBanque' => $lignesBanque,

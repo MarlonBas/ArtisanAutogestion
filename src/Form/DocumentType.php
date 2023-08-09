@@ -33,6 +33,10 @@ class DocumentType extends AbstractType
             ->add('date', DateType::class, [
                 'label' => 'Date de creation',
                 'widget' => 'single_text'])
+
+            ->add('tva', null, ['label' => 'Taux de TVA (%)',
+            'property_path' => 'tva'])
+
             ->add('type', ChoiceType::class, [
                 'choices' => [
                     'Devis' => 'devisEnCours',

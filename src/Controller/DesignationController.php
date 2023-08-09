@@ -41,6 +41,10 @@ class DesignationController extends AbstractController
         for ($i = 0; $i < count($designations); $i++) {
             $total = $total + $designations[$i]->getPrixTotal();
         }
+        $totalHT = 0;
+        for ($i = 0; $i < count($designations); $i++) {
+            $totalHT = $totalHT + $designations[$i]->getPrixHorsTax();
+        }
         
         $form = $this->createForm(DesignationType::class);
 
@@ -48,6 +52,7 @@ class DesignationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $designation = $form->getData();
             $designation->setDocument($document);
+            $designation->setTva($document->getTva());
             $designation->setPrixHorsTax($designation->getPrixUnitaire()*$designation->getQuantite());
             if ($designation->getUnite() == null) {
                 $designation->setUnite(" ");
@@ -59,7 +64,7 @@ class DesignationController extends AbstractController
             if ($micro != true && $designation->getTva() > 0) {
                 $designation->setPrixTotal($designation->getPrixHorsTax()+$designation->getPrixHorsTax()*(1/$designation->getTva()));
             }
-            if ($micro == true) {
+            if ($micro == true && $designation->getTva() == 0) {
                 $designation->setPrixTotal($designation->getPrixHorsTax());
             }
 
@@ -74,6 +79,7 @@ class DesignationController extends AbstractController
             'designations' => $designations,
             'form' => $form,
             'total' => $total,
+            'totalHT' => $totalHT,
             'micro' => $micro,
         ]);
     }

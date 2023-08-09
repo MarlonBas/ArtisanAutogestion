@@ -23,10 +23,6 @@ class DesignationType extends AbstractType
             'required' => false,])
             ->add('prixUnitaire', null, ['label' => 'Prix unitaire '])
             ->add('quantite', null, ['label' => 'Quantité '])
-            ->add('tva', null, ['label' => 'TVA(%) ',
-            'required' => false,
-            'data' => 20,
-            ])
         ;
     }
 

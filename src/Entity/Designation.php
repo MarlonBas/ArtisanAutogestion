@@ -34,7 +34,7 @@ class Designation
     private ?float $prixTotal = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $tva = null;
+    private ?float $tva = null;
 
     #[ORM\ManyToOne(inversedBy: 'designations')]
     private ?Document $document = null;
@@ -116,12 +116,12 @@ class Designation
         return $this;
     }
 
-    public function getTva(): ?int
+    public function getTva(): ?float
     {
         return $this->tva;
     }
 
-    public function setTva(int $tva): static
+    public function setTva(float $tva): static
     {
         $this->tva = $tva;
 

@@ -18,22 +18,30 @@
             <th scope="col">Unité</th>
             <th scope="col">Prix Unitaire HT</th>
             {% if (app.user.parametres.modeMicro != true) %}
-                <th scope="col">TVA</th>
+                <th scope="col">Montant HT</th>
             {% endif %}
-            <th scope="col">Montant</th>
+            <th scope="col">Montant TTC</th>
         </tr>
     </thead>
     </tbody>
 {% for designation in designations %}
     <tr scope="row">
         <td>{{designation.description}}</td>
-        <td>{{designation.quantite}}</td>
-        <td>{{designation.unite}}</td>
-        <td>{{designation.prixUnitaire}}€</td>
-        {% if (app.user.parametres.modeMicro != true) %}
-            <td>{{designation.tva}}</td>
-        {% endif %}
-        <td>{{designation.prixTotal}}€</td>
+        <td>{% if (designation.quantite != null) %}
+        {{designation.quantite}}
+        {% endif %}</td>
+        <td>{% if (designation.unite != null) %}
+        {{designation.unite}}
+        {% endif %}</td>
+        <td>{% if (designation.prixUnitaire != null) %}
+        {{designation.prixUnitaire}}€
+        {% endif %}</td>
+        <td>{% if (app.user.parametres.modeMicro != true and designation.prixUnitaire != null) %}
+        {{designation.prixHorsTax}}
+        {% endif %}</td>
+        <td>{% if (designation.prixTotal != null) %}
+        {{designation.prixTotal}}€
+        {% endif %}</td>
     </tr>
 {% endfor %}
     </tbody>

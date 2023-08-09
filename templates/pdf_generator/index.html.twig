@@ -50,51 +50,68 @@
             table-layout: fixed;
             border: 1px solid;
         }
-        .items-table th, .items-table td, .items-table2 th, , .items-table2 td {
-            padding: 8px;
+        .items-table th, .items-table2 th {
+            padding: 4px;
             overflow: hidden;
             word-wrap: break-word;
             white-space: normal;
             border-bottom: 1px solid;
         }
         .items-table th, .items-table2 th {
-            border: 1px solid rgb(0, 0, 0)
+            border: 1px solid rgb(0, 0, 0);
         }
 
-        .item-table td, .item-table2 td {
-            color: #7F1734;
+        .items-table tr:nth-child(even) {
+            background-color: #f6d0da;
+        }
+
+        .items-table2 tr:nth-child(even) {
+            background-color: #f6d0da;
+        }
+
+        .border-right {
+            border-right: 1px solid;
+        }
+
+        .items-table td, .items-table2 td {
+            padding-left: 10px;
         }
         
         .items-table td:nth-child(2),
-        .items-table td:nth-child(3),
-        .items-table td:nth-child(5) {
-         width: 10%;
+        .items-table td:nth-child(3) {
+         width: 8%;
+         text-align: center;
         }
 
         .items-table td:nth-child(4) {
-         width: 15%;
+         width: 10%;
+         text-align: center;
         }
 
-        .items-table td:nth-child(6) {
-         width: 20%;
+        .items-table td:nth-child(5) {
+         width: 15%;
+         text-align: center;
         }
 
         .items-table2 td:nth-child(2),
         .items-table2 td:nth-child(3),
         .items-table2 td:nth-child(4) {
-         width: 10%;
+         width: 8%;
+         text-align: center;
         }
 
         .items-table2 td:nth-child(5) {
-         width: 20%;
+         width: 15%;
+         text-align: center;
         }
-
+        
         .total-table {
             align: right;
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
             border: 1px solid;
+            text-align: center;
         }
         .total-table2 {
             align: right;
@@ -104,10 +121,7 @@
             margin-left: 480px;
             table-layout: fixed;
             border: 1px solid;
-        }
-
-        .total-table2 td:nth-child(2) {
-         width: 67%;
+            text-align: center;
         }
       
         .total-table td, .total-table2 td {
@@ -162,30 +176,38 @@
                         <th scope="col" class="highlight">Qte</th>
                         <th scope="col" class="highlight">Unité</th>
                         <th scope="col" class="highlight">P.U.HT*</th>
-                        <th scope="col" class="highlight">TVA</th>
-                        <th scope="col" class="highlight">Montant TTC</th>
+                        <th scope="col" class="highlight">Montant HT</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for designation in designations %}
-                        <tr scope="row">
-                            <td>{{designation.description}}</td>
-                            <td>{{designation.quantite}}</td>
-                            <td>{{designation.unite}}</td>
-                            <td>{{designation.prixUnitaire}}€</td>
-                            <td>{{designation.tva}}%</td>
-                            <td>{{designation.prixTotal}}€</td>
-                        </tr>
+                        {% if (designation.quantite == null and designation.prixUnitaire == null) %}
+                            <tr scope="row">
+                                <td class="border-right">{{designation.description}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        {% else %}
+                            <tr scope="row">
+                                <td class="border-right">{{designation.description}}</td>
+                                <td>{{designation.quantite}}</td>
+                                <td>{{designation.unite}}</td>
+                                <td>{{designation.prixUnitaire}}€</td>
+                                <td>{{designation.prixHorsTax}}€</td>
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
             <table class="total-table">
                 <tbody>
                     <tr scope="row">
-                        <td><strong>Total HT:</strong></td>
-                        <td>{{ totalHT }}€</td>
-                        <td><strong>Total TTC:</strong></td>
-                        <td>{{ totalTTC }}€</td>
+                        <td class="border-right"><strong>Total HT : </strong>{{ totalHT }}€</td>
+                        <td class="border-right"><strong>TVA : </strong>{{ document.tva }}%</td>
+                        <td class="border-right"><strong>Total TVA : </strong>{{ totalTVA }}€</td>
+                        <td><strong>Total TTC : </strong>{{ totalTTC }}€</td>
                     </tr>
                 </tbody>
             </table>
@@ -203,25 +225,34 @@
                 </thead>
                 <tbody>
                     {% for designation in designations %}
-                        <tr scope="row">
-                            <td>{{designation.description}}</td>
-                            <td>{{designation.quantite}}</td>
-                            <td>{{designation.unite}}</td>
-                            <td>{{designation.prixUnitaire}}€</td>
-                            <td>{{designation.prixTotal}}€</td>
-                        </tr>
+                        {% if (designation.quantite == null and designation.prixUnitaire == null) %}
+                            <tr scope="row">
+                                <td class="border-right">{{designation.description}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        {% else %}
+                            <tr scope="row">
+                                <td class="border-right">{{designation.description}}</td>
+                                <td>{{designation.quantite}}</td>
+                                <td>{{designation.unite}}</td>
+                                <td>{{designation.prixUnitaire}}€</td>
+                                <td>{{designation.prixTotal}}€</td>
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
             <table class="total-table2">
                 <tbody>
                     <tr scope="row">
-                        <td><strong>Total:</strong></td>
-                        <td>{{ totalTTC }}€</td>
+                        <td><strong>Total : </strong>{{ totalTTC }}€</td>
                     </tr>
                 </tbody>
             </table>
-            <p style="text-align: right;">TVA non applicable, art. 293 B du Code Général des Impôts</p>
+            <p class="smaller-text" style="text-align: right;">TVA non applicable, art. 293 B du Code Général des Impôts</p>
         {% endif %}
         <p class="smaller-text">Prix Unitaire*</p>
         {% if (type == "Devis") %}

@@ -28,6 +28,9 @@ class Document
     #[ORM\Column]
     private String $type;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $tva = null;
+
     #[ORM\ManyToOne(inversedBy: 'Documents')]
     private ?Client $client = null;
 
@@ -80,6 +83,18 @@ class Document
     public function setType(String $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getTva(): float
+    {
+        return $this->tva;
+    }
+
+    public function setTva(float $tva): static
+    {
+        $this->tva = $tva;
 
         return $this;
     }

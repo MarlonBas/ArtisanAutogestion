@@ -150,7 +150,7 @@ class DocumentController extends AbstractController
             }
             return $this->redirectToRoute('app_designation_add', ['id' => $document->getId()]);
         }
-        return $this -> render('document/adddocument.html.twig', ['form' => $form->createView()]);
+        return $this -> render('document/adddocument.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
 
     #[Route('/document/remove{id}', name: 'app_document_remove')]
