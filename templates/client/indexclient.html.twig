@@ -16,16 +16,16 @@
               <th scope="col" class="hidden-small">Adresse</th>
           </tr>
         </thead>
-      {% for client in clients %}
         <tbody>
-          <tr scope="row">
+        {% for client in clients %}
+            <tr scope="row">
                 <td><a href="{{ path('app_client_show', {'name': client.nom}) }}" class="client-card">{{ client.nom }}</a></td>
                 <td class="hidden-small">{{client.Email}}</td>
                 <td class="hidden-small">{{client.Telephone}}</td>
                 <td class="hidden-small">{{client.Adresse}}, {{client.codePostal}},{{client.ville}}</td>
             </tr>
+        {% endfor %}
         </tbody>  
-      {% endfor %}
       </table>
   </div>
 {% endblock %}
