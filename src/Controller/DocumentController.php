@@ -32,8 +32,6 @@ class DocumentController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
         $user = $token->getUser();
-
-        $clients = $user->getClients()->toArray();
         $documents = $user->getDocuments()->toArray();
 
         $devisEnCours = $this->documentTypeFilter($documents, "devisEnCours");
@@ -44,7 +42,6 @@ class DocumentController extends AbstractController
         $facturesPayees = $this->documentTypeFilter($documents, "facturesPayees");
 
         return $this->render('document/indexdocument.html.twig', [
-            'clients' => $clients, 
             'devisEnCours' => $devisEnCours,
             'devisEnvoyes' => $devisEnvoyes,
             'devisAcceptes' => $devisAcceptes,
