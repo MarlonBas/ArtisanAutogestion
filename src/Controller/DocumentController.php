@@ -116,7 +116,7 @@ class DocumentController extends AbstractController
     }
 
     #[Route('/document/create', name: 'app_document_create')]
-    public function create(Request $request, EntityManagerInterface $entityManager, DocumentRepository $documentRepository): Response
+    public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $token = $this->tokenStorage->getToken();
         if ($token == null)
@@ -141,13 +141,6 @@ class DocumentController extends AbstractController
             $document->setNumero($document->getClient()->getId().$document->getDate()->format('ym').$count.$user->getId());
             $entityManager->persist($document);
             $entityManager->flush();
-            $document = $documentRepository->find($document->getId());
-            if ($document->getType() == "devisEnCours") {
-            $this->addFlash('success', "Le devis à été enregistré avec succès");
-            }
-            if ($document->getType() == "factureEnCours") {
-            $this->addFlash('success', "La facture à été enregistré avec succès");
-            }
             return $this->redirectToRoute('app_designation_add', ['id' => $document->getId()]);
         }
         return $this -> render('document/adddocument.html.twig', ['form' => $form->createView(), 'user' => $user]);
@@ -296,7 +289,7 @@ class DocumentController extends AbstractController
                 $newtype = "devisEnvoyes";
             }
             if ($document->getType() == "facturesEnCours") {
-                return $this->redirectToRoute('app_document_remove', ['id' => $document->getId()]);
+                return $this->redirectToRoute('app_document_remove', ['idDocumentRepository $documentRepository)' => $document->getId()]);
             }
             if ($document->getType() == "facturesEnvoyees") {
                 $newtype = "facturesEnCours";
@@ -305,11 +298,9 @@ class DocumentController extends AbstractController
                 $newtype = "facturesEnvoyees";
             }
         }
-
         $document->setType($newtype);
         $entityManager->persist($document);
         $entityManager->flush();
-
         return $this->redirectToRoute('app_document_index');
     }
 
