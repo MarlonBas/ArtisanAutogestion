@@ -31,6 +31,10 @@
             <div class="form-field" style="display: none;">{{ form_widget(form.tva) }}</div>
         </div>
         {% endif %}
+        <div class="form-row">
+            <div class="form-label">{{ form_label(form.notes) }}</div>
+            <div class="form-field">{{ form_widget(form.notes) }}</div>
+        </div>
     <button type="submit" class="submit-button">Suivant</button>
     {{ form_end(form) }}
 </div>

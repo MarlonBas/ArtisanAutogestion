@@ -58,7 +58,6 @@ class ClientController extends AbstractController
             $client->setUser($user);
             $entityManager->persist($client);
             $entityManager->flush();
-            $this->addFlash('success', "Le client a été ajouté avec succès");
             return $this->redirectToRoute('app_main');
         }
         return $this -> render('client/addclient.html.twig', ['form' => $form->createView()]);
