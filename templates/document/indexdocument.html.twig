@@ -26,7 +26,8 @@
         <div class="card">
         <a href="{{ path('app_document_show', {'id': devis.id}) }}">{{devis.numero}}-{{devis.client.nom}}</a>
         <br>
-        <a href="{{ path('app_document_move', { 'id': devis.id, 'direction': "left" }) }}" class="arrow">&#8592 </a><a href="{{ path('app_document_move', { 'id': devis.id, 'direction': "right" }) }}" class="arrow">&#8594</a>
+        <a href="{{ path('app_document_move', { 'id': devis.id, 'direction': "left" }) }}" class="arrow">&#8592 </a>
+        <a href="{{ path('app_document_move', { 'id': devis.id, 'direction': "right" }) }}" class="arrow">&#8594</a>
         </div>
         {% endfor %}
       </div>
@@ -36,7 +37,8 @@
         <div class="card">
         <a href="{{ path('app_document_show', {'id': devis.id}) }}">{{devis.numero}}-{{devis.client.nom}}</a>
         <br>
-        <a href="{{ path('app_document_move', { 'id': devis.id, 'direction': "left" }) }}" class="arrow">&#8592 </a><a href="{{ path('app_document_move', { 'id': devis.id, 'direction': "right" }) }}" class="arrow">&#8594</a>
+        <a href="{{ path('app_document_move', { 'id': devis.id, 'direction': "left" }) }}" class="arrow">&#8592 </a>
+        <a href="{{ path('app_document_move', { 'id': devis.id, 'direction': "right" }) }}" class="arrow">&#8594</a>
         </div>
         {% endfor %}
       </div>
@@ -46,7 +48,8 @@
         <div class="card">
         <a href="{{ path('app_document_show', {'id': facture.id}) }}">{{facture.numero}}-{{facture.client.nom}}</a>
         <br>
-        <a href="{{ path('app_document_move', { 'id': facture.id, 'direction': "left" }) }}" class="arrow">&#8592 </a><a href="{{ path('app_document_move', { 'id': facture.id, 'direction': "right" }) }}" class="arrow">&#8594</a>
+        <a href="{{ path('app_document_move', { 'id': facture.id, 'direction': "left" }) }}" class="arrow">&#8592 </a>
+        <a href="{{ path('app_document_move', { 'id': facture.id, 'direction': "right" }) }}" class="arrow">&#8594</a>
         </div>
         {% endfor %}
       </div>
@@ -56,7 +59,8 @@
         <div class="card">
         <a href="{{ path('app_document_show', {'id': facture.id}) }}">{{facture.numero}}-{{facture.client.nom}}</a>
         <br>
-        <a href="{{ path('app_document_move', { 'id': facture.id, 'direction': "left" }) }}" class="arrow">&#8592 </a><a href="{{ path('app_document_move', { 'id': facture.id, 'direction': "right" }) }}" class="arrow">&#8594</a>
+        <a href="{{ path('app_document_move', { 'id': facture.id, 'direction': "left" }) }}" class="arrow">&#8592 </a>
+        <a href="{{ path('app_document_move', { 'id': facture.id, 'direction': "right" }) }}" class="arrow">&#8594</a>
         </div>
         {% endfor %}
       </div>
