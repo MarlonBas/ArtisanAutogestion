@@ -43,6 +43,10 @@
             <div class="form-label">{{ form_label(registrationForm.titre) }}</div>
             <div class="form-field">{{ form_widget(registrationForm.titre) }}</div>
     </div>
+    <div class="form-row">
+            <div class="form-label">{{ form_label(registrationForm.detailsPayment) }}</div>
+            <div class="form-field">{{ form_widget(registrationForm.detailsPayment) }}</div>
+    </div>
         <button type="submit" class="submit-button">Modifier mon profile</button>
     {{ form_end(registrationForm) }}
 {% endblock %}

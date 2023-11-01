@@ -58,7 +58,8 @@ class ClientController extends AbstractController
             $client->setUser($user);
             $entityManager->persist($client);
             $entityManager->flush();
-            return $this->redirectToRoute('app_main');
+            $this->addFlash('success', "Nouveau client ajouté");
+            return $this->redirectToRoute('app_client_index');
         }
         return $this -> render('client/addclient.html.twig', ['form' => $form->createView()]);
     }
@@ -104,6 +105,7 @@ class ClientController extends AbstractController
         $client = $clientRepository->findOneByNom($name);
         $entityManager->remove($client);
         $entityManager->flush();
+        $this->addFlash('success', "Client supprimé");
         return $this->redirectToRoute('app_client_index');
     }
 }

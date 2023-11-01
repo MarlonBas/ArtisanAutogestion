@@ -3,66 +3,113 @@
 {% block title %}Ajouter designations{% endblock %}
 
 {% block body %}
-{{document.numero}}
-{{document.client.nom}}
-{{date}}
-<p>TVA: {{document.tva}}%</p>
-<h2>Désignations</h2>
-<table class="designation-table">
-    <thead>
-        <tr>
-            <th scope="col">Article</th>
-            <th scope="col" class="hidden-small">Quantite</th>
-            <th scope="col" class="hidden-small">Unité</th>
-            <th scope="col" class="hidden-small">Prix Unitaire HT</th>
+<div class="box">
+<div class="column-container">
+    <div class="column">
+        <strong>Document n°{{document.numero}}</strong>
+    </div>
+    <div class="column">
+        <strong>Date :</strong>
+        </br>
+        {{date}}
+    </div>
+    <div class="column">
+        <strong>Client :</strong>
+        </br>
+        {{document.client.nom}}
+    </div>
+    <div class="column">
+        <strong>TVA :</strong>
+        </br>
+        {{document.tva}}%
+    </div>
+    <div class="column">
+        <a href="{{ path('app_document_show', {'id': document.id}) }}" class="sm-button">Terminer</a>
+    </div>
+<p>{{document.notes}}</p>
+</div>
+</div>
+
+<div class="box">
+    <table class="designation-table">
+        <thead>
+            <tr>
+                <th scope="col">Article</th>
+                <th scope="col" class="hidden-small">Quantite</th>
+                <th scope="col" class="hidden-small">Unité</th>
+                <th scope="col" class="hidden-small">Prix Unitaire HT</th>
+                {% if (app.user.parametres.modeMicro != true) %}
+                <th scope="col">Montant HT</th>
+                {% endif %}
+                <th scope="col">Montant TTC</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        </tbody>
+    {% for designation in designations %}
+        <tr scope="row">
+            <td>
+            {{designation.description}}
+            </td>
+            <td class="hidden-small">{{designation.quantite}}</td>
+            <td class="hidden-small">{{designation.unite}}</td>
+            <td class="hidden-small">{{designation.prixUnitaire}}€</td>
             {% if (app.user.parametres.modeMicro != true) %}
-            <th scope="col">Montant HT</th>
+            <td class="hidden-small">{{designation.prixHorsTax}}</td>
             {% endif %}
-            <th scope="col">Montant TTC</th>
-            <th scope="col"></th>
+            <td>{{designation.prixTotal}}€</td>
+            <td>
+            <a href="{{ path('app_designation_move', { 'id': designation.id, 'direction': "up" }) }}" class="arrow">&#8593</a>
+            <a href="{{ path('app_designation_move', { 'id': designation.id, 'direction': "down" }) }}" class="arrow">&#8595</a>
+            <a href="{{ path('app_designation_remove', {'id': designation.id}) }}" class="arrow">&#215</a>
+            </td>
         </tr>
-    </thead>
-    </tbody>
-{% for designation in designations %}
-    <tr scope="row">
-        <td>{{designation.description}}</td>
-        <td class="hidden-small">{{designation.quantite}}</td>
-        <td class="hidden-small">{{designation.unite}}</td>
-        <td class="hidden-small">{{designation.prixUnitaire}}€</td>
-        {% if (app.user.parametres.modeMicro != true) %}
-        <td class="hidden-small">{{designation.prixHorsTax}}</td>
-        {% endif %}
-        <td>{{designation.prixTotal}}€</td>
-        <td><a href="{{ path('app_designation_remove', {'id': designation.id}) }}">supprimer</a></td>
-    </tr>
-{% endfor %}
-    </tbody>
-</table>
+    {% endfor %}
+        </tbody>
+    </table>
+<br>
 {% if (app.user.parametres.modeMicro != true) %}
     Total HT: {{totalHT}}€
 {% endif %}
 <p>Total TTC: {{total}}€</p>
-<h2>Ajouter une ligne</h2>
-<div style="text-align: center">
+</div>
+
+<div class="box">
+<div class="form-container">
     {{ form_start(form) }}
     <div class="form-row">
-            <div class="form-label">{{ form_label(form.description) }}</div>
-            <div class="form-field">{{ form_widget(form.description) }}</div>
+    <div class="column-container">
+    <div class="column">
+        <div class="form-field">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description) }}
         </div>
-        <div class="form-row">
-            <div class="form-label">{{ form_label(form.quantite) }}</div>
-            <div class="form-field">{{ form_widget(form.quantite) }}</div>
+    </div>
+    <div class="column">
+        <div class="form-field">
+            {{ form_label(form.quantite) }}
+            {{ form_widget(form.quantite) }}
         </div>
-        <div class="form-row">
-            <div class="form-label">{{ form_label(form.prixUnitaire) }}</div>
-            <div class="form-field">{{ form_widget(form.prixUnitaire) }}</div>
+    </div>
+    <div class="column">
+        <div class="form-field">
+            {{ form_label(form.prixUnitaire) }}
+            {{ form_widget(form.prixUnitaire) }}
         </div>
-        <div class="form-row">
-            <div class="form-label">{{ form_label(form.unite) }}</div>
-            <div class="form-field">{{ form_widget(form.unite) }}</div>
+    </div>
+    <div class="column">
+        <div class="form-field">
+            {{ form_label(form.unite) }}
+            {{ form_widget(form.unite) }}
         </div>
-    <button type="submit" class="submit-button">Ajouter ligne</button>
+    </div>
+    <div class="column">
+        <button type="submit" class="submit-button">Ajouter ligne</button>
+    </div>
+    </div>
+    </div>
     {{ form_end(form) }}
-    <td><a href="{{ path('app_document_show', {'id': document.id}) }}" class="sm-button">Terminer</a></td>
 </div>
+</div>
+
 {% endblock %}

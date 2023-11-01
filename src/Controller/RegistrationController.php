@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Parametres;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
@@ -29,6 +30,9 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            $newParametres = new Parametres();
+            $newParametres->setAfficherCalendrier(true);
+            $user->setParametres($newParametres);
 
             $entityManager->persist($user);
             $entityManager->flush();

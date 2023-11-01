@@ -5,23 +5,69 @@
 {% block body %}
 <h2> Modification - {{type}} n°{{document.numero}} du {{date}} pour {{document.client.nom}}</h2>
 <br>
-<div style="text-align: center">
+<div class="box2">
+<div class="form-container">
     {{ form_start(form) }}
     <div class="form-row">
-            <div class="form-label">{{ form_label(form.date) }}</div>
-            <div class="form-field">{{ form_widget(form.date) }}</div>
+    <div class="column-container">
+    <div class="column">
+        <div class="form-field">
+            {{ form_label(form.date) }}
+            </br>
+            {{ form_widget(form.date) }}
         </div>
-        <div class="form-row">
-            <div class="form-label">{{ form_label(form.type) }}</div>
-            <div class="form-field">{{ form_widget(form.type) }}</div>
+    </div>
+    <div class="column">
+        <div class="form-field">
+            {{ form_label(form.type) }}
+            </br>
+            {{ form_widget(form.type) }}
         </div>
-        <div class="form-row">
-            <div class="form-label">{{ form_label(form.client) }}</div>
-            <div class="form-field">{{ form_widget(form.client) }}</div>
+    </div>
+    <div class="column">
+        <div class="form-field">
+            {{ form_label(form.client) }}
+            </br>
+            {{ form_widget(form.client) }}
         </div>
-    <button type="submit" class="submit-button">Suivant</button>
+    </div>
+    {% if (user.parametres.modeMicro != true) %}
+    <div class="column">
+        <div class="form-field">
+            {{ form_label(form.tva) }}
+            </br>
+            {{ form_widget(form.tva) }}
+        </div>
+    </div>
+    {% endif %}
+    {% if (user.parametres.modeMicro == true) %}
+    <div class="column">
+        <div class="form-field" style="display: none;">
+            {{ form_label(form.tva) }}
+            </br>
+            {{ form_widget(form.tva) }}
+        </div>
+    </div>
+    {% endif %}
+    <div class="column">
+        <div class="form-field">
+            {{ form_label(form.notes) }}
+            </br>
+            {{ form_widget(form.notes) }}
+        </div>
+    </div>
+    <div class="column">
+        <button type="submit" class="submit-button">Suivant</button>
+    </div>
+    <div class="column">
+        <a href="{{ path('app_document_remove', {'id': document.id}) }}" class="sm-button">! Supprimer !</a>
+    </div>
+    <div class="column">
+        <a href="{{ path('app_document_index')}}" class="sm-button">Retour</a>
+    </div>
+    </div>
+    </div>
     {{ form_end(form) }}
 </div>
-<a href="{{ path('app_document_remove', {'id': document.id}) }}" class="sm-button">! Supprimer !</a>
-    <a href="{{ path('app_document_index')}}" class="sm-button">Retour</a>
+</div>
 {% endblock %}

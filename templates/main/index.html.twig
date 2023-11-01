@@ -1,8 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Artisan.Autogestion{% endblock %}
+{% block title %}BasArtisanGestion{% endblock %}
 
 {% block body %}
+  {% for label, messages in app.session.flashbag.all() %}
+      {% for message in messages %}
+          <div class="alert alert-{{ label }}">
+              {{ message }}
+          </div>
+      {% endfor %}
+  {% endfor %}
+  {% if (app.user.parametres.afficherCalendrier == true) %}
     <div class="box">
     <div class="column-container">
       <div class="column">
@@ -36,6 +44,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
     <div class="box2">
       <a href="{{ path('app_document_index') }}" class="sm-button2">Devis et Factures</a> <a href="{{ path('app_client_index') }}" class="sm-button2">Clients</a>
     </div>

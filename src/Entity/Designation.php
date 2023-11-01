@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\DesignationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DesignationRepository::class)]
@@ -38,6 +39,9 @@ class Designation
 
     #[ORM\ManyToOne(inversedBy: 'designations')]
     private ?Document $document = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 3, scale: '0')]
+    private ?string $position = null;
 
     public function getId(): ?int
     {
@@ -136,6 +140,18 @@ class Designation
     public function setDocument(?Document $document): static
     {
         $this->document = $document;
+
+        return $this;
+    }
+
+    public function getPosition(): ?string
+    {
+        return $this->position;
+    }
+
+    public function setPosition(string $position): static
+    {
+        $this->position = $position;
 
         return $this;
     }

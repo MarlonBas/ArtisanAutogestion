@@ -64,9 +64,8 @@
     flex-direction: column;
     max-width: 95vw;
     background-color: #FFEADD;
-    padding: 20px;
+    padding: 10px;
     margin-bottom: 20px;
-    border: 2px solid #000;
     box-sizing: border-box;
     justify-content: center;
     border-radius: 10px;
@@ -143,9 +142,8 @@
       flex-direction: row;
       max-width: 95vw;
       background-color: #FFEADD;
-      padding: 20px;
+      padding: 10px;
       margin-bottom: 20px;
-      border: 2px solid #000;
       box-sizing: border-box;
       justify-content: center;
       border-radius: 10px;
@@ -251,6 +249,17 @@ h3, h2 {
   background: #FF8989;
   border: 2px solid #000;
   border-radius: 10px;
+}
+
+.alert {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+  text-align: center;
 }
 
 .button:hover{
@@ -394,7 +403,11 @@ h3, h2 {
 }
 
 .designation-table {
-  width: 50%;
+  width: 100%;
+}
+
+.designation-table tr:nth-child(even) {
+  background-color: #FF8989;
 }
 
 .designation-table th,

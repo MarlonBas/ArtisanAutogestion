@@ -141,6 +141,7 @@ class DocumentController extends AbstractController
             $document->setNumero($document->getClient()->getId().$document->getDate()->format('ym').$count.$user->getId());
             $entityManager->persist($document);
             $entityManager->flush();
+            $this->addFlash('success', "Nouveau document créé");
             return $this->redirectToRoute('app_designation_add', ['id' => $document->getId()]);
         }
         return $this -> render('document/adddocument.html.twig', ['form' => $form->createView(), 'user' => $user]);
@@ -152,6 +153,7 @@ class DocumentController extends AbstractController
         $document = $documentRepository->find($id);
         $entityManager->remove($document);
         $entityManager->flush();
+        $this->addFlash('success', "Document supprimé avec succès");
         return $this->redirectToRoute('app_document_index');
     }
 
@@ -169,6 +171,7 @@ class DocumentController extends AbstractController
         $document->setType($newType);
         $entityManager->persist($document);
         $entityManager->flush();
+        $this->addFlash('success', "Document archivé");
         return $this->redirectToRoute('app_document_index');
     }
 
@@ -215,6 +218,7 @@ class DocumentController extends AbstractController
             'date' => $date,
             'type' => $typeName,
             'form' => $form->createView(),
+            'user' => $user,
         ]);
     }
 
@@ -289,7 +293,7 @@ class DocumentController extends AbstractController
                 $newtype = "devisEnvoyes";
             }
             if ($document->getType() == "facturesEnCours") {
-                return $this->redirectToRoute('app_document_remove', ['idDocumentRepository $documentRepository)' => $document->getId()]);
+                return $this->redirectToRoute('app_document_remove', ['id' => $document->getId()]);
             }
             if ($document->getType() == "facturesEnvoyees") {
                 $newtype = "facturesEnCours";
@@ -327,6 +331,7 @@ class DocumentController extends AbstractController
         $newDocument->setNumero($document->getClient()->getId().$document->getDate()->format('ym').$count.$user->getId());
         $entityManager->persist($newDocument);
         $entityManager->flush();
+        $this->addFlash('success', "Document copié avec succès");
         return $this->redirectToRoute('app_document_index');
     }
 }

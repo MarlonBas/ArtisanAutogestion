@@ -33,10 +33,12 @@ class DesignationController extends AbstractController
         }
         $user = $token->getUser();
         $micro = $user->getParametres()->isModeMicro();
-
         $document = $documentRepository->find($id);
         $date = $document->getDate()->format('d-m-Y');
         $designations = $document->getDesignations()->toArray();
+        usort($designations, function($a, $b) {
+            return $a->getPosition() - $b->getPosition();
+        });
         $total = 0;
         for ($i = 0; $i < count($designations); $i++) {
             $total = $total + $designations[$i]->getPrixTotal();
@@ -60,6 +62,9 @@ class DesignationController extends AbstractController
             if ($designation->getTva() == null) {
                 $designation->setTva(0);
             }
+            if ($designation->getQuantite() == null) {
+                $designation->setQuantite(0.0);
+            }
 
             if ($micro != true && $designation->getTva() > 0) {
                 $designation->setPrixTotal($designation->getPrixHorsTax()+$designation->getPrixHorsTax()*(1/$designation->getTva()));
@@ -67,7 +72,8 @@ class DesignationController extends AbstractController
             if ($micro == true && $designation->getTva() == 0) {
                 $designation->setPrixTotal($designation->getPrixHorsTax());
             }
-
+            $lastDesignation = end($designations);
+            $designation->setPosition($lastDesignation ? $lastDesignation->getPosition() + 1 : 1);
             $entityManager->persist($designation);
             $entityManager->flush();
             return $this->redirectToRoute('app_designation_add', ['id' => $id]);
@@ -84,11 +90,39 @@ class DesignationController extends AbstractController
         ]);
     }
 
+
     #[Route('/designation/remove{id}', name: 'app_designation_remove')]
     public function remove(int $id, DesignationRepository $designationRepository,EntityManagerInterface $entityManager) {
         $designation = $designationRepository->find($id);
         $entityManager->remove($designation);
         $entityManager->flush();
         return $this->redirectToRoute('app_designation_add', ['id' => $designation->getDocument()->getId()]);
+    }
+
+    #[Route('/designation/move{id}/{direction}', name: 'app_designation_move')] 
+    public function move(int $id, string $direction, DesignationRepository $designationRepository, EntityManagerInterface $entityManager) {
+        $designation = $designationRepository->find($id);
+        $document = $designation->getDocument();
+        $designations = $document->getDesignations()->toArray();
+        $currentPosition = $designation->getPosition();
+        
+        if ($direction == "up" && $currentPosition > 0) {
+            $newPosition = $currentPosition - 1;
+        } elseif ($direction == "down" && $currentPosition < count($designations) - 1) {
+            $newPosition = $currentPosition + 1;
+        } else {
+            return $this->redirectToRoute('app_designation_add', ['id' => $document->getId()]);
+        }
+        $designation->setPosition($newPosition);
+        foreach ($designations as $other) {
+            if ($other->getId() != $id) {
+                if ($other->getPosition() == $newPosition) {
+                    $other->setPosition($currentPosition);
+                    $currentPosition = $newPosition;
+                }
+            }
+        }
+        $entityManager->flush();
+        return $this->redirectToRoute('app_designation_add', ['id' => $document->getId()]);
     }
 }

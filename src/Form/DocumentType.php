@@ -31,7 +31,7 @@ class DocumentType extends AbstractType
         $user = $this->security->getUser();
         $builder
             ->add('date', DateType::class, [
-                'label' => 'Date de creation',
+                'label' => 'Date',
                 'widget' => 'single_text'])
 
             ->add('tva', null, ['label' => 'Taux de TVA (%)',
@@ -43,7 +43,7 @@ class DocumentType extends AbstractType
                     'Devis' => 'devisEnCours',
                     'Facture' => 'facturesEnCours',
                 ],
-                'label' => 'Type de document'
+                'label' => 'Type'
             ])
             ->add('client', EntityType::class, [
                 'class' => Client::class,

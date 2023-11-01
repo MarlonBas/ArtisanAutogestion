@@ -4,8 +4,15 @@
  
  
 {% block body %}
+{% for label, messages in app.session.flashbag.all() %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
   <h2> Devis et Factures </h2>
- <div class="box">
+<div class="box">
     <a href="{{ path('app_document_create') }}" class="submit-button"> Nouveau devis ou facture</a>
     <a href="{{ path('app_document_archiveindex') }}" class="submit-button">Archive</a>
     <br>

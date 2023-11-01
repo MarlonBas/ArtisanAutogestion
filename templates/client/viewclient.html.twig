@@ -12,15 +12,14 @@
 {{client.Adresse}}, {{client.codePostal}}, {{client.ville}}
 <br>
 {% if (client.siret) %}
-   SIRET: {{ client.siret }}
+SIRET: {{ client.siret }}
 {% endif %}</p>
+<a href="{{ path('app_client_edit', {'name': client.nom}) }}" class="sm-button">Modifier</a>
 <div class="column" style="text-align: center">
     <strong>Documents associés</strong>
     {% for document in documents %}
-        {{document.numero}}-{{document.client.nom}}
+        <a href="{{ path('app_document_show', {'id': document.id})}}" class="card">{{document.numero}} - {{document.numero|slice(3, 2)}}/{{document.numero|slice(1, 2)}}</a>
         <br>
     {% endfor %}
 </div>
-<td><a href="{{ path('app_client_edit', {'name': client.nom}) }}" class="sm-button">Modifier</a></td>
-
 {% endblock %}

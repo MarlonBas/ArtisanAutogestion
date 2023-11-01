@@ -183,6 +183,7 @@ class Document
             $clonedDesignation->setPrixHorsTax($designation->getPrixHorsTax());
             $clonedDesignation->setTva($designation->getTva());
             $clonedDesignation->setPrixTotal($designation->getPrixTotal());
+            $clonedDesignation->setPosition($designation->getPosition());
 
             $clonedDocument->addDesignation($clonedDesignation);
         }
